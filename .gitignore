@@ -1,0 +1,22 @@
+# Node / backend
+backend/api/node_modules/
+backend/api/dist/
+backend/api/out-tsc/
+backend/api/.env
+backend/api/package-lock.json
+backend/api/*.log
+backend/api/nodemon.json
+
+# Angular / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/out-tsc/
+frontend/.angular/
+frontend/src/environments/*.ts
+
+# IDE / system files
+.vscode/
+.idea/
+*.log
+*.swp
+.DS_Store

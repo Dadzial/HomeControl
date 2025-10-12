@@ -1,7 +1,9 @@
 import App from './app';
 import UserController from './controllers/user.controller';
 
-const app = new App([]);
+const app = new App([
+    new UserController()
+]);
 
 app.app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');

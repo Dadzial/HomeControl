@@ -12,8 +12,8 @@ import {Router} from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit ,OnDestroy {
-  username :string = ''
-  password :string = ''
+  username :string = '';
+  password :string = '';
 
   constructor(private authService: AuthService,private router: Router) {}
 
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit ,OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("Component destroyed")
+    console.log("Component destroyed");
   }
 
   onSubmit(event: Event) {

@@ -26,6 +26,10 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  saveToken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
   isTokenExpired(token?: string): boolean {
     const t = token || this.getToken();
     if (!t) return true;

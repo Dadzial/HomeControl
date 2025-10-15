@@ -24,8 +24,8 @@ class UserController implements Controller {
    private initializeRoutes() {
        this.router.post(`${this.path}/create`, this.createNewOrUpdate);
        this.router.post(`${this.path}/auth`, this.authenticate);
-       this.router.delete(`${this.path}/logout/:userId`, auth, this.removeHashSession);
        this.router.post(`${this.path}/reset-password`, this.resetPassword);
+       this.router.delete(`${this.path}/logout/:userId`, auth, this.removeHashSession);
    }
 
    private authenticate = async (request: Request, response: Response, next: NextFunction) => {
@@ -71,8 +71,6 @@ class UserController implements Controller {
         console.error(`Validation Error: ${error.message}`);
         response.status(400).json({error: 'Bad request', value: error.message});
     }
- 
- 
  };
  
  

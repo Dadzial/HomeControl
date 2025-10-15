@@ -9,7 +9,7 @@ const PasswordSchema = new Schema<IPassword>({
    userId: { type: Schema.Types.ObjectId, required: true, unique: true },
    password: { type: String, required: true }
  });
- 
- const PasswordModel: Model<IPassword> = mongoose.model<IPassword>('Password', PasswordSchema);
+
+const PasswordModel: Model<IPassword> = mongoose.model<IPassword>('Password', PasswordSchema);
  
  export default PasswordModel;

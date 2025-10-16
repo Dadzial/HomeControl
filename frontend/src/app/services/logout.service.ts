@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class LogoutService {
 
-  private apiUrl = 'http://localhost:3000/api/user/logout';
+  private apiUrl = 'http://localhost:3100/api/user/logout';
 
   constructor(private httpClient: HttpClient) {}
 

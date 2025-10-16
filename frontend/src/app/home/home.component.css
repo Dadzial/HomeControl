@@ -3,16 +3,14 @@ html, body {
   margin: 0;
 }
 
+
 .main-container {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background: linear-gradient(60deg, #B0C2DE, #D4D4D4, #E6CEA4);
   height: 100vh;
   overflow: hidden;
 }
+
 
 .main-container::before {
   content:"";
@@ -24,4 +22,82 @@ html, body {
   background: url("../../assets/backgrounds/background.png") no-repeat center center;
   background-size: cover;
   z-index: 0;
+}
+
+
+.custom-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  box-shadow: none;
+  height: 64px;
+}
+
+.logo-title-container {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 4px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo {
+  height: 40px;
+  margin-right: 8px;
+}
+
+.toolbar-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.user-icon mat-icon {
+  font-size: 24px;
+  color: #000;
+}
+
+.username-display {
+  font-weight: 500;
+  margin-right: 8px;
+  color: #000;
+}
+
+
+.logout-button {
+  background-color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin-left: 16px;
+}
+
+.logout-button mat-icon {
+  color: #000;
 }

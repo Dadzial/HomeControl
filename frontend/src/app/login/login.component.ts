@@ -1,4 +1,4 @@
-import { Component , OnInit , OnDestroy} from '@angular/core';
+import { Component , OnInit , OnDestroy, AfterViewInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import {NgOptimizedImage} from '@angular/common';
 import {MatButton} from '@angular/material/button';
@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit ,OnDestroy {
+export class LoginComponent implements OnInit ,OnDestroy,AfterViewInit {
   username :string = '';
   password :string = '';
 
@@ -23,6 +23,10 @@ export class LoginComponent implements OnInit ,OnDestroy {
       console.log("User already logged in , redirecting ...")
       this.router.navigate(['/home']);
     }
+  }
+
+  ngAfterViewInit(): void {
+    console.log("Component initialized");
   }
 
   ngOnDestroy(): void {

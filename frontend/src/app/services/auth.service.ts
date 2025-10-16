@@ -30,6 +30,30 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
+  getUserId(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.userId || null;
+    } catch (e) {
+      console.error('Error:', e);
+      return null;
+    }
+  }
+  getDisplayName(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.name || null;
+    } catch (e) {
+      console.error('Error parsing token:', e);
+      return null;
+    }
+  }
+
   isTokenExpired(token?: string): boolean {
     const t = token || this.getToken();
     if (!t) return true;

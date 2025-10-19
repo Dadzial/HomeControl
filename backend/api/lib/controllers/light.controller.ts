@@ -17,6 +17,14 @@ class LightController implements Controller {
         this.initializeWebSocketHandler();
     }
 
+    //TODO :: masz zrobiony juz kontroler z obsługą websocketów dopisz tu metody ktore pozwolą włączyc swiatło
+    //TODO :: pobrac status swiateł co do websocketu niech obsługuje tylko /toogle i status reszte to
+    //TODO :: klasyczne http co do usage i /usage reset powinien byc zrobiony schema i serwis w light.service
+    //TODO :: razem to wszystko spinasz tu dostajac w endpoicie czas wlaczenia swiatelem oraz reset
+    //TODO :: dam ci strukture kodu esp32 gdy wkelisz ją do czata wszystko stanie jasne bo dostaniesz
+    //TODO :: strukture jsona który masz wysyłać za pomoca tych enpointów zeby wszystko działo
+
+
     private initializeRoutes() {
         this.router.post(`${this.path}/toggle`, this.turnLight);
         this.router.get(`${this.path}/status`, this.getAllLightsStatus);

@@ -1,6 +1,7 @@
 import Controller from "./interfaces/controller.interface";
 import express from 'express';
 import { config } from './config'
+import {Server, Socket} from "socket.io";
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
@@ -9,6 +10,7 @@ import http from "http";
 class App {
     public app: express.Application;
     private server: http.Server;
+    public io!: Server;
 
 
     constructor(controllers :Controller[]) {
@@ -17,6 +19,7 @@ class App {
         this.initializeControllers(controllers);
         this.connectToDatabase();
         this.server = http.createServer(this.app);
+        this.initializeSocket();
     }
 
     private initializeControllers(controllers: Controller[]): void {
@@ -57,6 +60,44 @@ class App {
             process.exit(0);
         });
     }
+
+    private initializeSocket(): void {
+        this.io = new Server(this.server, {
+            cors: {
+                origin: "http://localhost:4200",
+                methods: ["GET", "POST"],
+                allowedHeaders: ["Authorization"],
+                credentials: true
+            },
+        });
+
+
+        this.io.on("connection", (socket: Socket) => {
+            console.log(`Nowe połączenie: ${socket.id}`);
+
+
+            socket.on("message", (data: string) => {
+                console.log(`Wiadomość od ${socket.id}: ${data}`);
+                this.io.emit("message", data);
+            });
+
+
+            socket.on("disconnect", () => {
+                console.log(`Rozłączono: ${socket.id}`);
+            });
+        });
+
+
+        this.server.listen(config.socketPort, () => {
+            console.log(`WebSocket listening on port ${config.socketPort}`);
+        });
+    }
+
+
+    public getIo(): Server {
+        return this.io;
+    }
+
 
     public listen(): void {
         this.app.listen(config.port, () => {

@@ -1,7 +1,9 @@
 import App from './app';
 import UserController from './controllers/user.controller';
+import LightController from "./controllers/light.controller";
 
 const app = new App([]);
+const io = app.getIo();
 
 app.app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -12,6 +14,7 @@ app.app.use((req, res, next) => {
 });
 
 const controllers = [
+    new LightController(io),
     new UserController(),
 ];
 

@@ -1,6 +1,5 @@
 import Controller from "../interfaces/controller.interface";
 import {Router} from "express";
-import path from "path";
 import {Request, Response, NextFunction} from 'express';
 import {auth} from '../middlewares/auth.middleware';
 import {admin} from '../middlewares/admin.middleware';

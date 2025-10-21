@@ -1,9 +1,7 @@
-import path from "path";
+
 import {NextFunction, Request, request, Response, Router} from "express";
 import Controller from "../interfaces/controller.interface";
 import {Server, Socket} from "socket.io";
-import cron from "node-cron";
-import Joi from "joi";
 import {
   toggleLightSchema,
   resetUsageSchema,

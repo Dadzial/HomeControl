@@ -5,11 +5,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {LogoutService} from '../services/logout.service';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
+import {TemperatureComponent} from '../temperature/temperature.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatIcon, MatToolbarModule, MatIconButton],
+  imports: [MatIcon, MatToolbarModule, MatIconButton, TemperatureComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

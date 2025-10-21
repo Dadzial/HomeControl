@@ -6,11 +6,13 @@ import {LogoutService} from '../services/logout.service';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {TemperatureComponent} from '../temperature/temperature.component';
+import {AlarmComponent} from '../alarm/alarm.component';
+import {DoorsComponent} from '../doors/doors.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatIcon, MatToolbarModule, MatIconButton, TemperatureComponent],
+  imports: [MatIcon, MatToolbarModule, MatIconButton, TemperatureComponent, AlarmComponent, DoorsComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

@@ -10,10 +10,11 @@ html, body {
   overflow: hidden;
 }
 
+
 .custom-toolbar {
   display: flex;
   align-items: center;
-  padding: 0 16px;
+  padding: 0 20px;
   box-shadow: none;
   height: 64px;
 }
@@ -21,9 +22,7 @@ html, body {
 .logo-title-container {
   display: flex;
   align-items: center;
-  padding: 4px 12px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 0;
 }
 
 .logo {
@@ -37,8 +36,11 @@ html, body {
   color: #ffffff;
 }
 
-.spacer {
-  flex: 1 1 auto;
+
+.user-container {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 }
 
 .user-info {
@@ -47,6 +49,8 @@ html, body {
   background-color: #232632;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 0 8px;
+  margin-right: 8px;
 }
 
 .user-icon {
@@ -65,10 +69,9 @@ html, body {
 
 .username-display {
   font-weight: 500;
-  margin-right: 8px;
+  margin-left: 8px;
   color: #ffffff;
 }
-
 
 .logout-button {
   background-color: #232632;
@@ -79,9 +82,48 @@ html, body {
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  margin-left: 16px;
+  margin-left: 0;
 }
 
 .logout-button mat-icon {
   color: #ffffff;
 }
+
+.dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px);
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.top-card {
+  height: 50%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+
+}
+
+.top-card app-temperature {
+  flex: 1;
+  display: flex;
+}
+
+.bottom-card {
+  width: 50%;
+  flex: 1;
+  display: flex;
+  gap: 20px;
+}
+
+.bottom-card app-doors,
+.bottom-card app-alarm {
+  flex: 1;
+  display: flex;
+}
+
+
+
+

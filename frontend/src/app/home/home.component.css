@@ -10,7 +10,6 @@ html, body {
   overflow: hidden;
 }
 
-
 .custom-toolbar {
   display: flex;
   align-items: center;
@@ -35,7 +34,6 @@ html, body {
   font-weight: bold;
   color: #ffffff;
 }
-
 
 .user-container {
   display: flex;
@@ -89,21 +87,28 @@ html, body {
   color: #ffffff;
 }
 
+
 .dashboard-grid {
   display: flex;
-  flex-direction: column;
   height: calc(100vh - 64px);
   gap: 20px;
   padding: 20px;
   box-sizing: border-box;
 }
 
+
+.left-card {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .top-card {
   height: 50%;
-  width: 50%;
+  width: 100%;
   display: flex;
   justify-content: center;
-
 }
 
 .top-card app-temperature {
@@ -112,9 +117,9 @@ html, body {
 }
 
 .bottom-card {
-  width: 50%;
   flex: 1;
   display: flex;
+  width: 100%;
   gap: 20px;
 }
 
@@ -124,6 +129,18 @@ html, body {
   display: flex;
 }
 
+.right-cards {
+  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-content: space-between;
+  box-sizing: border-box;
+}
 
-
-
+.right-cards app-humidity,
+.right-cards app-energy {
+  flex: 1 1 calc(50% - 10px);
+  display: flex;
+  min-height: 30%;
+}

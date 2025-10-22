@@ -1,0 +1,34 @@
+.humidity-container{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  color: white;
+  background-color: #232632;
+  border-radius: 20px;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 1;
+}
+.humidity-container h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+.humidity-display {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.humidity-display h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+}
+
+.humidity-display [mat-icon] {
+  font-size: 42px;
+  color: white;
+}
+
+

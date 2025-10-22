@@ -5,12 +5,12 @@
       <span class="toolbar-title">Home-Control</span>
     </div>
     <div class="user-container">
-    <span class="user-info">
-      <div class="user-icon">
-        <mat-icon>account_circle</mat-icon>
-      </div>
-      <span class="username-display">{{displayName}}</span>
-    </span>
+      <span class="user-info">
+        <div class="user-icon">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <span class="username-display">{{displayName}}</span>
+      </span>
       <button mat-icon-button (click)="onLogout()" class="logout-button">
         <mat-icon>logout</mat-icon>
       </button>
@@ -18,12 +18,18 @@
   </mat-toolbar>
 
   <div class="dashboard-grid">
-    <div class="top-card">
-      <app-temperature></app-temperature>
+    <div class="left-card">
+      <div class="top-card">
+        <app-temperature></app-temperature>
+      </div>
+      <div class="bottom-card">
+        <app-doors></app-doors>
+        <app-alarm></app-alarm>
+      </div>
     </div>
-    <div class="bottom-card">
-      <app-doors></app-doors>
-      <app-alarm></app-alarm>
+    <div class="right-cards">
+      <app-humidity></app-humidity>
+      <app-energy></app-energy>
     </div>
   </div>
 </div>

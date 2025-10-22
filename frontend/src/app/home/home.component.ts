@@ -8,11 +8,13 @@ import {Router} from '@angular/router';
 import {TemperatureComponent} from '../temperature/temperature.component';
 import {AlarmComponent} from '../alarm/alarm.component';
 import {DoorsComponent} from '../doors/doors.component';
+import {EnergyComponent} from '../energy/energy.component';
+import {HumidityComponent} from '../humidity/humidity.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatIcon, MatToolbarModule, MatIconButton, TemperatureComponent, AlarmComponent, DoorsComponent],
+  imports: [MatIcon, MatToolbarModule, MatIconButton, TemperatureComponent, AlarmComponent, DoorsComponent, EnergyComponent, HumidityComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

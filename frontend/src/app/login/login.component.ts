@@ -46,4 +46,12 @@ export class LoginComponent implements OnInit ,OnDestroy,AfterViewInit {
       }
     });
   }
+
+  goRegister() {
+    this.router.navigate(['/register']);
+  }
+
+  goReset() {
+    this.router.navigate(['/reset-password']);
+  }
 }

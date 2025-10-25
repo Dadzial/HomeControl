@@ -1,0 +1,31 @@
+<div class="main-container">
+  <form class="register-form" (ngSubmit)="registerUser()">
+    <div class="logo">
+      <img ngSrc="assets/icons/appIconDarkMode.png" alt="Home Icon" class="logo-icon" height="512" width="512">
+      <h1>Home-Control</h1>
+      <h2>Register</h2>
+    </div>
+
+    <div class="input-group">
+      <mat-icon>email</mat-icon>
+      <input class="email-input" type="email" placeholder="Enter email" [(ngModel)]="email" name="email"/>
+    </div>
+
+    <div class="input-group">
+      <mat-icon>person</mat-icon>
+      <input class="username-input" type="text" placeholder="Enter username" [(ngModel)]="username" name="username"/>
+    </div>
+
+    <div class="input-group">
+      <mat-icon>lock</mat-icon>
+      <input class="password-input" type="password" placeholder="Enter password" [(ngModel)]="password"  name="password"/>
+    </div>
+
+    <button mat-raised-button type="submit" color="primary" >Sign up</button>
+
+    <div class="login-section">
+      <p>Have an account? Log in</p>
+      <button mat-stroked-button color="accent" (click)="goLogin()" type="button">Login</button>
+    </div>
+  </form>
+</div>

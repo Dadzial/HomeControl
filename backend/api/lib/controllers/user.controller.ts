@@ -77,7 +77,7 @@ class UserController implements Controller {
     const {userId} = request.params;
     try {
        const result = await this.tokenService.remove(userId);
-       console.log('aaa', result)
+       console.log('Session removed for user:', result)
        response.status(200).json(result);
    } catch (error) {
        console.error(`Validation Error: ${error.message}`);
@@ -85,29 +85,32 @@ class UserController implements Controller {
    }
 };
 
-private resetPassword = async (request: Request, response: Response, next: NextFunction) => {
-    const { login } = request.body;
+    private resetPassword = async (request: Request, response: Response, next: NextFunction) => {
+        const { email, newPassword } = request.body;
 
-    try {
-        const user = await this.userService.getByEmailOrName(login);
-        if (!user) {
-            return response.status(404).json({ error: 'User not found' });
+        if (!newPassword) {
+            return response.status(400).json({ error: 'New password is required.' });
         }
 
-        const newPassword = Math.random().toString(36).slice(-8);
-        const hashedPassword = await this.passwordService.hashPassword(newPassword);
-        await this.passwordService.createOrUpdate({
-            userId: user._id,
-            password: hashedPassword
-        });
+        try {
+            const user = await this.userService.getByEmailOrName(email);
+            if (!user) {
+                return response.status(404).json({ error: 'User not found' });
+            }
 
-        console.log(`Nowe hasło dla ${user.email}: ${newPassword}`);
-        response.status(200).json({ message: 'Password reset successfully. Check your email.' });
-    } catch (error) {
-        console.error(`Password reset error: ${error.message}`);
-        response.status(500).json({ error: 'Internal server error' });
-    }
-};
+            const hashedPassword = await this.passwordService.hashPassword(newPassword);
+            await this.passwordService.createOrUpdate({
+                userId: user._id,
+                password: hashedPassword
+            });
+
+            console.log(`Password reset for ${user.email}: ${newPassword}`);
+            response.status(200).json({ message: 'Password reset successfully.' });
+        } catch (error) {
+            console.error(`Password reset error: ${error.message}`);
+            response.status(500).json({ error: 'Internal server error' });
+        }
+    };
 
 }
 

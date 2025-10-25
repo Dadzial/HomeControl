@@ -10,11 +10,12 @@ import {AlarmComponent} from '../alarm/alarm.component';
 import {DoorsComponent} from '../doors/doors.component';
 import {EnergyComponent} from '../energy/energy.component';
 import {HumidityComponent} from '../humidity/humidity.component';
+import {LightsComponent} from '../lights/lights.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatIcon, MatToolbarModule, MatIconButton, TemperatureComponent, AlarmComponent, DoorsComponent, EnergyComponent, HumidityComponent],
+  imports: [MatIcon, MatToolbarModule, MatIconButton, TemperatureComponent, AlarmComponent, DoorsComponent, EnergyComponent, HumidityComponent, LightsComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

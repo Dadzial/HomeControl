@@ -18,6 +18,11 @@ html, body {
   height: 64px;
 }
 
+mat-toolbar.custom-toolbar {
+  background-color: #1A1D22 !important;
+  box-shadow: none;
+}
+
 .logo-title-container {
   display: flex;
   align-items: center;
@@ -131,16 +136,33 @@ html, body {
 
 .right-cards {
   width: 50%;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
   gap: 20px;
-  align-content: space-between;
+  height: 100%;
   box-sizing: border-box;
 }
 
-.right-cards app-humidity,
-.right-cards app-energy {
-  flex: 1 1 calc(50% - 10px);
-  display: flex;
-  min-height: 30%;
+
+.right-cards app-humidity {
+  grid-column: 1;
+  grid-row: 1;
 }
+
+.right-cards app-energy {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+
+.right-cards app-lights {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: stretch;
+  justify-self: stretch;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+

@@ -1,7 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 export const config = {
     port: process.env.PORT || 3100,
-    databaseUrl: process.env.DATABASE_URL ||
-        'mongodb+srv://duszakdamian034_db_user:Z7voCVCkAfNyv9gv@homecontrolcluster.kpfocyb.mongodb.net/?retryWrites=true&w=majority',
-        JwtSecret: "secret",
-        socketPort: process.env.SOCKET_PORT || 3000
+    databaseUrl: process.env.DATABASE_URL as string,
+    JwtSecret: process.env.JWT_SECRET as string,
+    socketPort: process.env.SOCKET_PORT || 3000
 };

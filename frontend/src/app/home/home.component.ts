@@ -11,11 +11,13 @@ import {DoorsComponent} from '../doors/doors.component';
 import {EnergyComponent} from '../energy/energy.component';
 import {HumidityComponent} from '../humidity/humidity.component';
 import {LightsComponent} from '../lights/lights.component';
+import {CO2SensorComponent} from '../co2-sensor/co2-sensor.component';
+import {WeatherComponent} from '../weather/weather.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatIcon, MatToolbarModule, MatIconButton, TemperatureComponent, AlarmComponent, DoorsComponent, EnergyComponent, HumidityComponent, LightsComponent],
+  imports: [MatIcon, MatToolbarModule, MatIconButton, TemperatureComponent, AlarmComponent, DoorsComponent, EnergyComponent, HumidityComponent, LightsComponent, CO2SensorComponent, WeatherComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

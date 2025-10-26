@@ -1,0 +1,19 @@
+.weather-container{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  color: white;
+  background-color: #232632;
+  border-radius: 20px;
+  padding: 20px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.weather-container h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}

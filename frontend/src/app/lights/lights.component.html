@@ -1,20 +1,14 @@
 <div class="lights-container">
   <h1>Lights</h1>
-
-  <div class="lights-grid">
+  <div class="lights-list">
     <div class="light-card" *ngFor="let light of lights">
       <div class="light-header">
-        <mat-icon class="light-icon" [ngStyle]="{ color: light.on ? '#005CBB' : '#232632' }">
+        <mat-icon class="light-icon" [ngStyle]="{ color: light.on ? '#00BFFF' : '#555' }">
           {{ light.icon }}
         </mat-icon>
         <span class="light-name">{{ light.name }}</span>
       </div>
-
-      <mat-slide-toggle
-        [(ngModel)]="light.on"
-        color="accent"
-      >
-      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="light.on" color="accent"></mat-slide-toggle>
     </div>
   </div>
 </div>

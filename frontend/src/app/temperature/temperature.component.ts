@@ -5,7 +5,6 @@ import {MatIcon} from '@angular/material/icon';
   selector: 'app-temperature',
   imports: [
     MatIcon,
-
   ],
   templateUrl: './temperature.component.html',
   styleUrl: './temperature.component.css'

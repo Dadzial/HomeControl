@@ -1,19 +1,55 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
-//TODO Pliki serwisu w angularze odpowiadaja za zapytania http websockety ogólnie komunikacja z backendem
-//TODO ty musisz w private apiUrl = '' umiesic zrobiony przez siebie andpoit z weather controllera
-//TODO i pozniej pod constructorem dac metodr które beda pobirac dane z tego endpointa i odpowiednio je przetwazac
-//TODO dla przykladu i zrozumienia wszystkiego zajżyj do np auth service logout service gdy juz zrobisz przejdz do
-//TODO  folderu weather (nad app component) plik weather.component.ts
+export interface WeatherData {
+  location: {
+    name?: string;
+    lat: number;
+    lon: number;
+  };
+  weather: {
+    description: string;
+    iconUrl: string;
+  };
+  temperature: {
+    value: number;
+    units: string;
+  };
+  wind: {
+    speed: number;
+    units: string;
+    deg: number;
+    direction: string;
+  };
+  timestamp: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherService {
 
-  private apiUrl = ''
+  private apiUrl = 'http://localhost:3100/api/weather';
+
+  constructor(private httpClient: HttpClient) {}
 
 
-  constructor(private httpClient : HttpClient) { }
+  getCurrentWeather(): Observable<WeatherData> {
+    return this.httpClient.get<WeatherData>(this.apiUrl).pipe(
+      map((data: WeatherData) => ({
+        ...data,
+        temperature: {
+          ...data.temperature,
+          value: Math.round(data.temperature.value),
+        },
+        weather: {
+          ...data.weather,
+          description: data.weather.description.charAt(0).toUpperCase() + data.weather.description.slice(1)
+        }
+      }))
+    );
+  }
+
+
 }

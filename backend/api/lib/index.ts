@@ -1,6 +1,7 @@
 import App from './app';
 import UserController from './controllers/user.controller';
 import LightController from "./controllers/light.controller";
+import WeatherController from "./controllers/weather.controller";
 
 const app = new App([]);
 const io = app.getIo();
@@ -16,6 +17,7 @@ app.app.use((req, res, next) => {
 const controllers = [
     new LightController(io),
     new UserController(),
+    new WeatherController()
 ];
 
 controllers.forEach((controller) => {

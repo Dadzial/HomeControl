@@ -1,29 +1,141 @@
 import Controller from "../interfaces/controller.interface";
-import {NextFunction, Request, request, Response, Router} from "express";
+import { NextFunction, Request, Response, Router } from "express";
+import axios from "axios";
+import { config } from "../config";
 
-//TODO pewnie projekt nie dziala i spokojnie to nie blad tylko pewne usprawienie zobaczylem ze na
-//TODO publicznym repo lata moj klucz do bazy (zostaw to dla siebie nie mow tego na uczelni bo zapomnialem ze repo jest publiczne xdddd)
-//TODO zrobimy to profesjonalnie tak ja to zrobilem juz wczesniej uzyjemy pliku zminnych srodowiskowych
-//TODO nazywa sie on ".env" umiesc go w folderze api tam gdzie package.json (bedzie na dc) bedzie on też w .gitignore wiadome
-//TODO i od teraz wszystkie dane wrażliwe mają być tam . Nie musisz nic robić  config.ts ma już połączenie (pobiera np klucz do bazy)
-//TODO teraz prośba wieksza dla ciebie żebyś nauczył sie troche angulara i jego sensu (aby przy prof piwko nie byc zielonym)
-//TODO zrobisz widget pogodowy taki mały zeby byla wiadomy stan na zewnątrz (niby xd) zacznij od wygnerowania sobie klucza api na stronie
-//TODO open weather api wez go i jako iż jest rzecza wrażliwą umieść w .env po tym w configu dlaczego winadomo importujesz config tu i zrobisz
-//TODO scieżke która pobieże ci dla stałej lokalziacji opis pogody slownie temperture sile wiatru oraz kierunek plus ikone reprezentująca pogode
-//TODO gdy to zrobisz i test w przegladrace (bo to get nie potrzebujesz postmana) wykaże ze dziala wtedy krok drugi to frontend
-//TODO odpalasz backend w drugim oknie terminala wchodzisz w cd frontend tam odalasz go komenda "ng serve" logujesz sie danymi
-//TODO login Damian hasło 123 i dam interseuje cie karta weather reszta intrukcji czeka na ciebie w frontend/src/app/services/weather.service.ts
+type WindInfo = {
+  speed: number;
+  units: "m/s" | "mph";
+  deg: number;
+  direction: string;
+};
 
-class ClimateController implements Controller {
-    public path = "api/weather";
-    public router = Router();
+type WeatherPayload = {
+  location: {
+    name?: string;
+    lat: number;
+    lon: number;
+  };
+  weather: {
+    description: string;
+    iconUrl: string;
+  };
+  temperature: {
+    value: number;
+    units: "°C" | "°F";
+  };
+  wind: WindInfo;
+  timestamp: string;
+};
 
-    constructor() {
-        this.initializeRoutes();
-    }
+const CACHE_TTL_MS = 2 * 60 * 1000;
+let lastResult: WeatherPayload | null = null;
+let lastFetchedAt = 0;
 
-    private initializeRoutes() {
+function degToCompass(deg: number): string {
+  const dirs = [
+    "N","NNE","NE","ENE","E","ESE","SE","SSE",
+    "S","SSW","SW","WSW","W","WNW","NW","NNW"
+  ];
 
-    }
+  const idx = Math.floor(((deg + 11.25) % 360) / 22.5);
+  return dirs[idx];
 }
-export default ClimateController;
+
+class WeatherController implements Controller {
+  public path = "/api/weather";
+  public router = Router();
+
+  private readonly apiKey: string;
+  private readonly lat: number;
+  private readonly lon: number;
+  private readonly units: "metric" | "imperial";
+  private readonly lang: string;
+
+  constructor() {
+    console.log("[WeatherController] zarejestrowano endpoint /api/weather");
+
+    const { apiKey, lat, lon, units, lang } = config.openWeather;
+    this.apiKey = apiKey;
+    this.lat = lat;
+    this.lon = lon;
+    this.units = units;
+    this.lang = lang;
+
+    if (!this.apiKey) {
+      console.warn("[weather] OPENWEATHER_API_KEY nie ustawiony w .env");
+    }
+
+    this.initializeRoutes();
+  }
+
+  private initializeRoutes() {
+    this.router.get(`${this.path}`, this.getCurrentWeather);
+  }
+
+  private getCurrentWeather = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (!this.apiKey) {
+        return res.status(500).json({ message: "Brak OPENWEATHER_API_KEY w konfiguracji (.env)" });
+      }
+
+      const now = Date.now();
+      if (lastResult && now - lastFetchedAt < CACHE_TTL_MS) {
+        return res.status(200).json(lastResult);
+      }
+
+      const url = "https://api.openweathermap.org/data/2.5/weather";
+      const { data } = await axios.get(url, {
+        params: {
+          lat: this.lat,
+          lon: this.lon,
+          appid: this.apiKey,
+          units: this.units,
+          lang: this.lang,
+        },
+        timeout: 5000,
+      });
+
+      const description: string = data?.weather?.[0]?.description ?? "brak danych";
+      const icon: string = data?.weather?.[0]?.icon ?? "01d";
+      const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+      const tempVal: number = data?.main?.temp ?? 0;
+      const windSpeed: number = data?.wind?.speed ?? 0;
+      const windDeg: number = data?.wind?.deg ?? 0;
+      const direction = degToCompass(windDeg);
+
+      const payload: WeatherPayload = {
+        location: {
+          name: data?.name,
+          lat: this.lat,
+          lon: this.lon,
+        },
+        weather: {
+          description,
+          iconUrl,
+        },
+        temperature: {
+          value: Number(tempVal.toFixed(1)),
+          units: this.units === "metric" ? "°C" : "°F",
+        },
+        wind: {
+          speed: Number(windSpeed.toFixed(1)),
+          units: this.units === "metric" ? "m/s" : "mph",
+          deg: windDeg,
+          direction,
+        },
+        timestamp: new Date().toISOString(),
+      };
+
+      lastResult = payload;
+      lastFetchedAt = now;
+
+      return res.status(200).json(payload);
+    } catch (err) {
+      return next(err);
+    }
+  };
+}
+
+export default WeatherController;

@@ -1,4 +1,92 @@
-<div class="weather-container">
-  <h1>Weather</h1>
-</div>
+<!-- kafelek pogodowy -->
+<ng-container *ngIf="!loading && weather as w; else loadingOrError">
+  <div
+    class="tile weather-tile"
+    style="
+      background:#232733;
+      border-radius:16px;
+      padding:14px 16px;
+      color:#e8edf5;
+      box-shadow: 0 6px 18px rgba(0,0,0,.25);
+    "
+  >
+    <!-- nagłówek kafelka -->
+    <div
+      class="tile-header"
+      style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;"
+    >
+      <div style="display:flex; align-items:center; gap:.5rem; font-weight:600; letter-spacing:.3px;">
+        <mat-icon>location_on</mat-icon>
+        <span>{{ w.location.name || 'Pogoda' }}</span>
+      </div>
 
+      <button
+        (click)="refreshWeather()"
+        style="
+          display:flex; align-items:center; gap:.35rem;
+          background:#2f3443; border:0; color:#e8edf5;
+          padding:.3rem .6rem; border-radius:10px; cursor:pointer;
+        "
+        title="Odśwież"
+      >
+        <mat-icon>refresh</mat-icon>
+        <span style="font-size:.9rem">Odśwież</span>
+      </button>
+    </div>
+
+    <!-- ciało kafelka -->
+    <div class="tile-body">
+      <!-- wiersz: duża temp + ikona -->
+      <div
+        style="display:flex; align-items:center; justify-content:flex-start; gap:.6rem; margin:4px 0 6px;"
+      >
+        <span style="font-size:2.2rem; line-height:1; font-weight:700;">
+          {{ w.temperature.value }}{{ w.temperature.units }}
+        </span>
+        <img
+          [src]="w.weather.iconUrl"
+          [alt]="w.weather.description"
+          style="width:52px; height:52px;"
+        />
+      </div>
+
+      <!-- opis -->
+      <div style="opacity:.9; margin-bottom:.4rem;">
+        {{ w.weather.description }}
+      </div>
+
+      <!-- linia z detalami: wiatr -->
+      <div
+        style="
+          display:flex; align-items:center; gap:1.1rem;
+          font-size:.95rem; opacity:.95;
+        "
+      >
+        <div style="display:flex; align-items:center; gap:.35rem;">
+          <mat-icon>air</mat-icon>
+          <span>{{ w.wind.speed }} {{ w.wind.units }}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:.35rem;">
+          <mat-icon>explore</mat-icon>
+          <span>Kierunek: {{ w.wind.direction }}</span>
+        </div>
+      </div>
+
+      <!-- znacznik czasu -->
+      <div style="margin-top:.6rem; font-size:.8rem; opacity:.6;">
+        {{ w.timestamp | date:'HH:mm' }} • aktualizacja
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- fallback: ładowanie / błąd -->
+<ng-template #loadingOrError>
+  <div
+    class="tile"
+    style="background:#232733; border-radius:16px; padding:14px 16px; color:#e8edf5;"
+  >
+    <div *ngIf="loading">Ładowanie danych pogodowych…</div>
+    <div *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
+  </div>
+</ng-template>

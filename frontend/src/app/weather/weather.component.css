@@ -1,4 +1,4 @@
-.weather-container{
+.weather-container {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -16,4 +16,103 @@
 .weather-container h1 {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+.location mat-icon {
+  font-size: 22px;
+  color: #e8edf5;
+}
+
+
+.weather-display {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.temp-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.temp-row h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  margin: 0;
+}
+
+.weather-icon {
+  width: 48px;
+  height: 48px;
+}
+
+
+.description {
+  font-size: 1rem;
+  opacity: 0.85;
+  font-family: 'Inter', sans-serif;
+}
+
+
+.wind {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.wind mat-icon {
+  font-size: 24px;
+  color: white;
+}
+
+
+.timestamp {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  font-family: 'Inter', sans-serif;
+}
+
+
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #2f3443;
+  border: none;
+  color: #e8edf5;
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: 10px;
+  transition: background 0.2s ease;
+}
+
+.refresh-btn:hover {
+  background: #3b4253;
+}
+
+.refresh-btn mat-icon {
+  font-size: 20px;
+}
+
+.loading,
+.error {
+  font-family: 'Inter', sans-serif;
+  opacity: 0.85;
+  font-size: 0.95rem;
 }

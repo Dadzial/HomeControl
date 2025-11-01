@@ -27,8 +27,8 @@ export class WeatherComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loading = false;
       },
       error: (err) => {
-        console.error('Błąd podczas pobierania pogody:', err);
-        this.errorMessage = 'Nie udało się pobrać danych pogodowych.';
+        console.error('Error:', err);
+        this.errorMessage = 'Failed to load weather data.';
         this.loading = false;
       }
     });
@@ -48,7 +48,7 @@ export class WeatherComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loading = false;
       },
       error: () => {
-        this.errorMessage = 'Nie udało się odświeżyć danych.';
+        this.errorMessage = 'Failed to refresh weather data.';
         this.loading = false;
       }
     });

@@ -1,4 +1,3 @@
-
 import {NextFunction, Request, request, Response, Router} from "express";
 import Controller from "../interfaces/controller.interface";
 import {Server, Socket} from "socket.io";
@@ -12,13 +11,13 @@ import LightsService from "../modules/services/lights.service";
 class LightController implements Controller {
     public path = "/api/light";
     public router = Router();
-    public esp32LightEndPoint = "http://192.168.2.240";
+    public esp32EndPoint = "http://192.168.2.240";
     private io: Server;
     private service: LightsService;
 
     constructor(io: Server) {
         this.io = io;
-        this.service = new LightsService(this.esp32LightEndPoint);
+        this.service = new LightsService(this.esp32EndPoint);
         this.initializeRoutes();
         this.initializeWebSocketHandler();
     }

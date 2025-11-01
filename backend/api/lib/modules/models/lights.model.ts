@@ -1,4 +1,4 @@
-export interface LightUsageModel  {
+export interface ILightUsage {
     room: string;
     turnedOnAt?: Date;
     totalUsageMs: number;

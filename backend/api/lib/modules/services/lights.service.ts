@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LightUsageModel } from "../models/lights.model";
+import { ILightUsage } from "../models/lights.model";
 
 export type Rooms = "kitchen" | "garage" | "room" | "bath";
 type RoomsOrAll = Rooms | "all";
@@ -7,11 +7,11 @@ type StatusMap = Record<Rooms, boolean>;
 
 class LightsService {
   private baseUrl: string;
-  private usage: Map<Rooms, LightUsageModel>;
+  private usage: Map<Rooms, ILightUsage>;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl.replace(/\/+$/, "");
-    this.usage = new Map<Rooms, LightUsageModel>([
+    this.usage = new Map<Rooms, ILightUsage>([
       ["kitchen", { room: "kitchen", totalUsageMs: 0 }],
       ["garage",  { room: "garage",  totalUsageMs: 0 }],
       ["room",    { room: "room",    totalUsageMs: 0 }],

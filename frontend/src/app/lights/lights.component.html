@@ -8,7 +8,11 @@
         </mat-icon>
         <span class="light-name">{{ light.name }}</span>
       </div>
-      <mat-slide-toggle [(ngModel)]="light.on" color="accent"></mat-slide-toggle>
+      <mat-slide-toggle
+        [ngModel]="light.on"
+        (ngModelChange)="toggleLight(light, $event)"
+        color="accent">
+      </mat-slide-toggle>
     </div>
   </div>
 </div>

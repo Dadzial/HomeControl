@@ -2,6 +2,12 @@
   <h1>Temperature</h1>
   <div class="temperature-display">
       <mat-icon>thermostat</mat-icon>
-      <h1>{{randomTemperature}}°C</h1>
+    <h1 *ngIf="temperature !== undefined; else noData">
+      {{ temperature }}%
+    </h1>
+
+    <ng-template #noData>
+      <h1>No reading</h1>
+    </ng-template>
   </div>
 </div>

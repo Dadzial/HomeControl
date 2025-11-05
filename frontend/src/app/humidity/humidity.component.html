@@ -2,6 +2,13 @@
   <h1>Humidity</h1>
   <div class="humidity-display">
     <mat-icon>water_drop</mat-icon>
-    <h1>{{randomHumidity}}%</h1>
+
+    <h1 *ngIf="humidity !== undefined; else noData">
+      {{ humidity }}%
+    </h1>
+
+    <ng-template #noData>
+      <h1>No reading</h1>
+    </ng-template>
   </div>
 </div>

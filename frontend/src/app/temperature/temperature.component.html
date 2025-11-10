@@ -1,13 +1,33 @@
 <div class="temperature-container">
-  <h1>Temperature</h1>
-  <div class="temperature-display">
+  <h1 class="temperature-title">Temperature</h1>
+  <div class="temperature-bottom">
+    <div class="temperature-display">
       <mat-icon>thermostat</mat-icon>
-    <h1 *ngIf="temperature !== undefined; else noData">
-      {{ temperature }}%
-    </h1>
+      <h1 *ngIf="temperature !== undefined; else noData">
+        {{ temperature }}%
+      </h1>
+      <ng-template #noData>
+        <h1>No reading</h1>
+      </ng-template>
+    </div>
 
-    <ng-template #noData>
-      <h1>No reading</h1>
-    </ng-template>
+
+
+    <div class="chart-wrapper">
+      <button mat-raised-button class="refresh-button">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+      <ngx-charts-line-chart
+        [results]="data"
+        [scheme]="colorScheme"
+        [xAxis]="true"
+        [yAxis]="true"
+        [showXAxisLabel]="false"
+        [showYAxisLabel]="false"
+        [autoScale]="true"
+        [animations]="true">
+      </ngx-charts-line-chart>
+    </div>
   </div>
 </div>

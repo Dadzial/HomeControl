@@ -1,19 +1,24 @@
+.main-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
 .temperature-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  position: relative;
   color: white;
   background-color: #232632;
   border-radius: 20px;
   padding: 20px;
   overflow: hidden;
   box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
   min-height: 250px;
+  max-width: 100%;
+  width: 100%;
+  position: relative;
 }
 
 .temperature-container::before {
@@ -28,7 +33,6 @@
   z-index: 0;
 }
 
-
 .temperature-title {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
@@ -37,17 +41,14 @@
   position: relative;
 }
 
-
 .temperature-bottom {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
-  flex: 1;
-  z-index: 1;
+  align-items: center;
   gap: 20px;
+  z-index: 1;
 }
-
 
 .temperature-display {
   display: flex;
@@ -70,39 +71,3 @@
 }
 
 
-.chart-wrapper {
-  flex: 1;
-  max-width: 65%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 10px;
-  overflow: hidden;
-}
-
-.chart-wrapper ngx-charts-line-chart {
-  width: 100%;
-  flex: 1;
-}
-
-
-.chart-wrapper button[mat-raised-button].refresh-button {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  align-self: flex-end;
-  background-color: #ffffff;
-  color: #232632;
-}
-
-.chart-wrapper button[mat-raised-button].refresh-button mat-icon{
-  color: #232632;
-}
-
-:host ::ng-deep ngx-charts-line-chart text {
-  fill: white !important;
-}
-:host ::ng-deep ngx-charts-line-chart .line {
-  stroke: #80d8ff !important;
-}

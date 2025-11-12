@@ -13,19 +13,12 @@ class App {
     public io!: Server;
 
 
-    constructor(controllers :Controller[]) {
+    constructor() {
         this.app = express();
         this.initializeMiddlewares();
-        this.initializeControllers(controllers);
         this.connectToDatabase();
         this.server = http.createServer(this.app);
         this.initializeSocket();
-    }
-
-    private initializeControllers(controllers: Controller[]): void {
-        controllers.forEach((controller) => {
-            this.app.use('/', controller.router);
-        });
     }
 
     private initializeMiddlewares(): void {

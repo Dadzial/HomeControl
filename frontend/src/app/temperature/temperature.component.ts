@@ -1,44 +1,25 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {MatIcon} from '@angular/material/icon';
-import {Subscription} from 'rxjs';
-import {Temperature, TemperatureService} from '../services/temperature.service';
-import {NgIf} from '@angular/common';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
-import { ScaleType } from '@swimlane/ngx-charts';
-import {MatButton} from '@angular/material/button';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription, timer, switchMap } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+import { NgIf } from '@angular/common';
+import { Temperature, TemperatureService } from '../services/temperature.service';
 
 @Component({
   selector: 'app-temperature',
   imports: [
     MatIcon,
     NgIf,
-    NgxChartsModule,
     MatButton
   ],
   templateUrl: './temperature.component.html',
-  styleUrl: './temperature.component.css'
+  styleUrls: ['./temperature.component.css']
 })
 export class TemperatureComponent implements OnInit, OnDestroy {
-  data = [{
-    name: 'Temperature',
-    series: [
-      { name: '10:00', value: 21 },
-      { name: '10:05', value: 22 },
-      { name: '10:10', value: 23 },
-      { name: '10:15', value: 22 },
-      { name: '10:20', value: 21 },
-    ],
-  }];
-  colorScheme = {
-    name: 'custom',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#80d8ff']
-  };
   temperature?: number;
   time?: Date;
   private sub?: Subscription;
+  private saveSub?: Subscription;
 
   constructor(private temperatureService: TemperatureService) {}
 
@@ -53,10 +34,21 @@ export class TemperatureComponent implements OnInit, OnDestroy {
         this.temperature = undefined;
       }
     });
+    this.startAutoSave();
   }
 
+  private startAutoSave() {
+    this.saveSub = timer(0, 3000).pipe(
+      switchMap(() => this.temperatureService.getTemperature()),
+      switchMap(temp => this.temperatureService.saveTemperature(temp.temperature))
+    ).subscribe({
+      next: () => console.log('Temperature auto-saved'),
+      error: err => console.error(err)
+    });
+  }
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+    this.saveSub?.unsubscribe();
   }
 }

@@ -3,9 +3,9 @@ import UserController from './controllers/user.controller';
 import LightController from "./controllers/light.controller";
 import WeatherController from "./controllers/weather.controller";
 import ClimateController from "./controllers/climate.controller";
+import EnergyController from "./controllers/energy.controller";
 
-const app = new App([]);
-const io = app.getIo();
+const app = new App();
 
 app.app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -15,14 +15,16 @@ app.app.use((req, res, next) => {
     next();
 });
 
+const io = app.getIo();
 const controllers = [
+    new EnergyController(),
     new ClimateController(io),
     new LightController(io),
     new UserController(),
     new WeatherController()
 ];
 
-controllers.forEach((controller) => {
+controllers.forEach(controller => {
     app.app.use("/", controller.router);
 });
 

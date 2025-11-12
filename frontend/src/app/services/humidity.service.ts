@@ -4,7 +4,7 @@ import {Observable, switchMap, timer} from 'rxjs';
 
 export interface Humidity {
   humidity: number;
-  time: Date;
+  timestamp: Date;
 }
 
 @Injectable({

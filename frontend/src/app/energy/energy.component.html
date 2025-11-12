@@ -2,6 +2,9 @@
   <h1>Energy</h1>
   <div class="energy-display">
     <mat-icon>bolt</mat-icon>
-    <h1>{{randomEnergy}} kWh</h1>
+    <h1> {{energy}} kWh</h1>
   </div>
+  <span *ngIf="time" class="energy-time">
+    Updated: {{ time | date: 'yyyy-MM-dd HH:mm:ss' }}
+</span>
 </div>

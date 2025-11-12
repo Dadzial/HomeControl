@@ -1,32 +1,34 @@
 <div class="weather-container" *ngIf="!loading && weather as w; else loadingOrError">
-  <h1>Weather</h1>
+  <!-- Tytuł u góry -->
+  <h1 class="weather-title">Weather</h1>
 
-  <div class="location">
-    <mat-icon>location_on</mat-icon>
-    <span>{{ w.location.name || 'Pogoda' }}</span>
-  </div>
-
-  <div class="weather-display">
+  <!-- Wyśrodkowana zawartość karty -->
+  <div class="weather-content">
+    <!-- Ikona i temperatura -->
     <div class="temp-row">
-      <img
-        [src]="w.weather.iconUrl"
-        [alt]="w.weather.description"
-        class="weather-icon"
-      />
-      <h1>{{ w.temperature.value }}{{ w.temperature.units }}</h1>
+      <img [src]="w.weather.iconUrl" [alt]="w.weather.description" class="weather-icon" />
     </div>
 
-    <div class="description">{{ w.weather.description }}</div>
+    <h1 class="temperature">{{ w.temperature.value }}{{ w.temperature.units }}</h1>
 
+    <!-- Lokalizacja -->
+    <div class="location">
+      <mat-icon>location_on</mat-icon>
+      <span>{{ w.location.name || 'Unknown' }}</span>
+    </div>
+
+    <!-- Wiatr -->
     <div class="wind">
       <mat-icon>air</mat-icon>
       <span>{{ w.wind.speed }} {{ w.wind.units }} • {{ w.wind.direction }}</span>
     </div>
 
+    <!-- Timestamp -->
     <div class="timestamp">
-      {{ w.timestamp | date: 'HH:mm' }} • Update
+      {{ w.timestamp | date:'HH:mm' }} • Update
     </div>
 
+    <!-- Refresh button -->
     <button (click)="refreshWeather()" class="refresh-btn">
       <mat-icon>refresh</mat-icon>
       <span>Refresh</span>
@@ -34,16 +36,11 @@
   </div>
 </div>
 
+<!-- Loading / error -->
 <ng-template #loadingOrError>
   <div class="weather-container">
-    <h1>Weather</h1>
-
-    <div *ngIf="loading" class="loading">
-      Loading weather data...
-    </div>
-
-    <div *ngIf="!loading && errorMessage" class="error">
-      {{ errorMessage }}
-    </div>
+    <h1 class="weather-title">Weather</h1>
+    <div *ngIf="loading" class="loading">Loading weather data...</div>
+    <div *ngIf="!loading && errorMessage" class="error">{{ errorMessage }}</div>
   </div>
 </ng-template>

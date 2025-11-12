@@ -1,14 +1,17 @@
 <div class="humidity-container">
-  <h1>Humidity</h1>
-  <div class="humidity-display">
-    <mat-icon>water_drop</mat-icon>
-
-    <h1 *ngIf="humidity !== undefined; else noData">
-      {{ humidity }}%
-    </h1>
-
-    <ng-template #noData>
-      <h1>No reading</h1>
-    </ng-template>
+  <h1 class="humidity-title">Humidity</h1>
+  <div class="humidity-bottom">
+    <div class="humidity-display">
+      <mat-icon>water_drop</mat-icon>
+      <h1 *ngIf="humidity !== undefined; else noData">
+        {{ humidity }}%
+      </h1>
+      <ng-template #noData>
+        <h1>No reading</h1>
+      </ng-template>
+    </div>
+    <span *ngIf="time" class="humidity-time">
+         Updated: {{ time | date: 'yyyy-MM-dd HH:mm:ss' }}
+    </span>
   </div>
 </div>

@@ -3,9 +3,13 @@ import { Subscription } from 'rxjs';
 import {MatIcon} from '@angular/material/icon';
 import {NgIf} from '@angular/common';
 import {Humidity, HumidityService} from '../services/humidity.service';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { ScaleType } from '@swimlane/ngx-charts';
+import {MatButton} from '@angular/material/button';
+
 @Component({
   selector: 'app-humidity',
-  imports: [MatIcon,NgIf],
+  imports: [MatIcon, NgIf, NgxChartsModule],
   templateUrl: './humidity.component.html',
   styleUrl: './humidity.component.css'
 })
@@ -21,7 +25,7 @@ export class HumidityComponent implements OnInit , OnDestroy  {
     this.sub = this.humidityService.getHumidity().subscribe({
       next: (data: Humidity) => {
         this.humidity = data.humidity;
-        this.time = new Date(data.time);
+        this.time = new Date(data.timestamp);
       },
       error: err => console.error('Error fetching humidity:', err)
     });

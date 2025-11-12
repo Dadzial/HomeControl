@@ -20,4 +20,8 @@ export class TemperatureService {
       switchMap(() => this.httpClient.get<Temperature>(`${this.apiUrl}/temperature`))
     );
   }
+
+  saveTemperature(temperature: number): Observable<any> {
+    return this.httpClient.post(`${this.apiUrl}/save/temperature`, { temperature });
+  }
 }

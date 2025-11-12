@@ -2,8 +2,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: flex-start; /* tytuł u góry */
+  align-items: stretch;
   position: relative;
   color: white;
   background-color: #232632;
@@ -13,10 +13,36 @@
   z-index: 1;
 }
 
-.weather-container h1 {
+.weather-title {
+  margin-bottom: 5px; /* zmniejszony odstęp */
+  text-align: left;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  margin-bottom: 10px;
+}
+
+.weather-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* mniejszy odstęp między elementami */
+  margin-top: 5px; /* mniejszy margines od tytułu */
+}
+
+.temp-row {
+  display: flex;
+  justify-content: center;
+}
+
+.weather-icon {
+  width: 96px;   /* większa ikona */
+  height: 96px;  /* większa ikona */
+}
+
+.temperature {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 2.2rem; /* trochę większa temperatura */
+  margin: 0;
 }
 
 .location {
@@ -24,48 +50,14 @@
   align-items: center;
   gap: 6px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: 1rem;
   opacity: 0.9;
-  margin-bottom: 10px;
 }
 
 .location mat-icon {
   font-size: 22px;
   color: #e8edf5;
 }
-
-
-.weather-display {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-
-.temp-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.temp-row h1 {
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  margin: 0;
-}
-
-.weather-icon {
-  width: 48px;
-  height: 48px;
-}
-
-
-.description {
-  font-size: 1rem;
-  opacity: 0.85;
-  font-family: 'Inter', sans-serif;
-}
-
 
 .wind {
   display: flex;
@@ -75,17 +67,15 @@
 }
 
 .wind mat-icon {
-  font-size: 24px;
+  font-size: 20px;
   color: white;
 }
-
 
 .timestamp {
   font-size: 0.8rem;
   opacity: 0.6;
   font-family: 'Inter', sans-serif;
 }
-
 
 .refresh-btn {
   display: flex;

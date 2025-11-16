@@ -1,3 +1,39 @@
 <div class="alarm-container">
-  <h1>Alarm</h1>
+  <div class="alarm-header">
+    <h1>Security</h1>
+    <div class="toggle-all-switch">
+      <mat-slide-toggle
+        [ngModel]="allAlarmsOn"
+        (ngModelChange)="toggleAllAlarms($event)">
+      </mat-slide-toggle>
+    </div>
+  </div>
+  <div class="alarms-row">
+    <div
+      class="alarm-card"
+      [ngClass]="{'active': temperatureAlarm, 'inactive': !temperatureAlarm}"
+      (click)="toggleAlarm('temperature')">
+      <mat-icon>thermostat</mat-icon>
+      <span>Temperature</span>
+    </div>
+
+    <div
+      class="alarm-card"
+      [ngClass]="{'active': motionAlarm, 'inactive': !motionAlarm}"
+      (click)="toggleAlarm('motion')">
+      <mat-icon>directions_run</mat-icon>
+      <span>Motion</span>
+    </div>
+
+    <div
+      class="alarm-card"
+      [ngClass]="{'active': gasAlarm, 'inactive': !gasAlarm}"
+      (click)="toggleAlarm('gas')">
+      <mat-icon>whatshot</mat-icon>
+      <span>Gas</span>
+    </div>
+  </div>
+  <div class="alarms-bottom">
+    <h1>Alarm history</h1>
+  </div>
 </div>

@@ -52,9 +52,9 @@
 
 .temperature-display {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
 }
 
 .temperature-display h1 {
@@ -68,6 +68,18 @@
 .temperature-display [mat-icon] {
   font-size: 40px;
   color: white;
+  vertical-align: middle;
 }
 
+.temperature-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+.temperature-time {
+  font-size: 14px;
+  font-weight: 300;
+  color: #ccc;
+  margin-top: 4px;
+}

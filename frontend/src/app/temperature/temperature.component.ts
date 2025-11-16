@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, timer, switchMap } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
-import { NgIf } from '@angular/common';
+import {DatePipe, NgIf} from '@angular/common';
 import { Temperature, TemperatureService } from '../services/temperature.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { Temperature, TemperatureService } from '../services/temperature.service
   imports: [
     MatIcon,
     NgIf,
-    MatButton
+    DatePipe,
   ],
   templateUrl: './temperature.component.html',
   styleUrls: ['./temperature.component.css']
@@ -27,11 +27,10 @@ export class TemperatureComponent implements OnInit, OnDestroy {
     this.sub = this.temperatureService.getTemperature().subscribe({
       next: (data: Temperature) => {
         this.temperature = data.temperature;
-        this.time = new Date(data.time);
+        this.time = new Date(data.timestamp);
       },
       error: err => {
         console.error('Error fetching temperature:', err);
-        this.temperature = undefined;
       }
     });
     this.startAutoSave();

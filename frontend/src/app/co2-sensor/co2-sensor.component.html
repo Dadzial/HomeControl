@@ -1,4 +1,21 @@
 <div class="sensor-container">
   <h1>Air Quality</h1>
-</div>
+  <div class="gauge-container">
+    <ngx-gauge
+      [type]="gaugeType"
+      [value]="gaugeValue"
+      [thresholds]="thresholdConfig"
+      [thick]="15"
+      [size]="170"
+      label="ppm"
+      cap="round">
+    </ngx-gauge>
 
+    <div class="air-quality-status">
+      <h2 [ngClass]="status.toLowerCase()">
+        {{ status }}
+        <mat-icon [style.color]="getArrowColor()">{{ getArrowIcon() }}</mat-icon>
+      </h2>
+    </div>
+  </div>
+</div>

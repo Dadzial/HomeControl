@@ -4,7 +4,7 @@ import { Observable, switchMap, timer } from 'rxjs';
 
 export interface Temperature {
   temperature: number;
-  time: Date;
+  timestamp: Date;
 }
 
 @Injectable({
@@ -22,6 +22,6 @@ export class TemperatureService {
   }
 
   saveTemperature(temperature: number): Observable<any> {
-    return this.httpClient.post(`${this.apiUrl}/save/temperature`, { temperature });
+    return this.httpClient.post(`${this.apiUrl}/save/temperature`, { temperature, time: new Date() });
   }
 }

@@ -8,7 +8,7 @@ import { deleteClimateQuerySchema } from "../modules/schemas/climate.schema";
 class ClimateController implements Controller {
   public path = "/api/climate";
   public router = Router();
-  public esp32EndPoint = "http://192.168.2.240";
+  public esp32EndPoint = "http://192.168.2.241";
   private io: Server;
   private service: ClimateService;
 

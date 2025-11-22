@@ -11,7 +11,7 @@ import LightsService from "../modules/services/lights.service";
 class LightController implements Controller {
     public path = "/api/light";
     public router = Router();
-    public esp32EndPoint = "http://192.168.2.240";
+    public esp32EndPoint = "http://192.168.2.241";
     private io: Server;
     private service: LightsService;
 

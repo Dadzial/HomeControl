@@ -1,38 +1,40 @@
-<div class="weather-container" *ngIf="!loading && weather as w; else loadingOrError">
+<div class="weather-container">
   <h1 class="weather-title">Weather</h1>
 
-  <div class="weather-content">
-    <div class="temp-row">
-      <img [src]="w.weather.iconUrl" [alt]="w.weather.description" class="weather-icon" />
+  <ng-container *ngIf="!loading && weather as w; else loadingOrError">
+    <div class="weather-content">
+
+      <div class="temp-row">
+        <img [src]="w.weather.iconUrl" [alt]="w.weather.description" class="weather-icon" />
+        <h1 class="temperature">{{ w.temperature.value }}{{ w.temperature.units }}</h1>
+      </div>
+
+      <div class="weather-details">
+        <div class="location">
+          <mat-icon>location_on</mat-icon>
+          <span>{{ w.location.name || 'Unknown' }}</span>
+        </div>
+
+        <div class="wind">
+          <mat-icon>air</mat-icon>
+          <span>{{ w.wind.speed }} {{ w.wind.units }} • {{ w.wind.direction }}</span>
+        </div>
+
+        <div class="timestamp">
+          {{ w.timestamp | date:'HH:mm' }} • Update
+        </div>
+
+        <button (click)="refreshWeather()" class="refresh-btn">
+          <mat-icon>refresh</mat-icon>
+          <span>Refresh</span>
+        </button>
+      </div>
+
     </div>
+  </ng-container>
 
-    <h1 class="temperature">{{ w.temperature.value }}{{ w.temperature.units }}</h1>
-
-    <div class="location">
-      <mat-icon>location_on</mat-icon>
-      <span>{{ w.location.name || 'Unknown' }}</span>
-    </div>
-
-    <div class="wind">
-      <mat-icon>air</mat-icon>
-      <span>{{ w.wind.speed }} {{ w.wind.units }} • {{ w.wind.direction }}</span>
-    </div>
-
-    <div class="timestamp">
-      {{ w.timestamp | date:'HH:mm' }} • Update
-    </div>
-
-    <button (click)="refreshWeather()" class="refresh-btn">
-      <mat-icon>refresh</mat-icon>
-      <span>Refresh</span>
-    </button>
-  </div>
+  <ng-template #loadingOrError>
+    <div class="loading" *ngIf="loading">Loading weather data...</div>
+    <div class="error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
+  </ng-template>
 </div>
-
-<ng-template #loadingOrError>
-  <div class="weather-container">
-    <h1 class="weather-title">Weather</h1>
-    <div *ngIf="loading" class="loading">Loading weather data...</div>
-    <div *ngIf="!loading && errorMessage" class="error">{{ errorMessage }}</div>
-  </div>
-</ng-template>

@@ -2,79 +2,74 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* tytuł u góry */
-  align-items: stretch;
-  position: relative;
+  justify-content: space-between; /* rozdziela górę i dół */
   color: white;
   background-color: #232632;
   border-radius: 20px;
   padding: 20px;
   overflow: hidden;
-  z-index: 1;
+  box-sizing: border-box;
 }
 
 .weather-title {
-  margin-bottom: 5px; /* zmniejszony odstęp */
-  text-align: left;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 .weather-content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px; /* mniejszy odstęp między elementami */
-  margin-top: 5px; /* mniejszy margines od tytułu */
+  gap: 15px;
+  flex: 1;
 }
+
 
 .temp-row {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  gap: 10px;
+  flex: 1;
 }
 
 .weather-icon {
-  width: 96px;   /* większa ikona */
-  height: 96px;  /* większa ikona */
+  width: 72px;
+  height: 72px;
 }
 
 .temperature {
   font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  font-size: 2.2rem; /* trochę większa temperatura */
+  font-weight: 400;
+  font-size: 1.8rem;
   margin: 0;
 }
 
-.location {
+
+.weather-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.location, .wind, .timestamp {
   display: flex;
   align-items: center;
   gap: 6px;
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   opacity: 0.9;
 }
 
-.location mat-icon {
-  font-size: 22px;
+.location mat-icon, .wind mat-icon {
   color: #e8edf5;
-}
-
-.wind {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.95rem;
-}
-
-.wind mat-icon {
   font-size: 20px;
-  color: white;
-}
-
-.timestamp {
-  font-size: 0.8rem;
-  opacity: 0.6;
-  font-family: 'Inter', sans-serif;
 }
 
 .refresh-btn {

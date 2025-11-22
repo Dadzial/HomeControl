@@ -25,8 +25,7 @@ class GazController implements Controller {
             const data = await this.readFromEsp32();
 
             return res.status(200).json({
-                success: true,
-                data,
+                ...data,
                 timestamp: new Date().toISOString()
             });
 

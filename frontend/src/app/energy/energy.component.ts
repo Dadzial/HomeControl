@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {Energy, EnergyService} from '../services/energy.service';
 import {Subscription} from 'rxjs';
-import {Humidity} from '../services/humidity.service';
 import {DatePipe, NgIf} from '@angular/common';
 @Component({
   selector: 'app-energy',

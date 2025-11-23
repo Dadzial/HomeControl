@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import PasswordModel from '../models/password.model';
+import PasswordModel from '../schemas/password.schema';
 
 
 class PasswordService {

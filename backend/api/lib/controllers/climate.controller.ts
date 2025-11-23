@@ -3,6 +3,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { Server, Socket } from "socket.io";
 import axios from "axios";
 import ClimateService from "../modules/services/climate.service";
+import AlarmService from "../modules/services/alarm.service";
 import { deleteClimateQuerySchema } from "../modules/schemas/climate.schema";
 
 class ClimateController implements Controller {
@@ -10,11 +11,14 @@ class ClimateController implements Controller {
   public router = Router();
   public esp32EndPoint = "http://192.168.2.241";
   private io: Server;
-  private service: ClimateService;
+  private serviceClimate: ClimateService;
+  private serviceAlarm: AlarmService;
+
 
   constructor(io: Server) {
     this.io = io;
-    this.service = new ClimateService();
+    this.serviceClimate = new ClimateService();
+    this.serviceAlarm = new AlarmService();
     this.initializeRoutes();
     this.initializeWebSocketHandler();
   }
@@ -53,7 +57,14 @@ class ClimateController implements Controller {
   private saveTemperature = async (request: Request, response: Response, next: NextFunction) => {
     try {
       const data = await this.fetchFromEsp32();
-      const saved = await this.service.saveReading(data.temperature, data.humidity);
+
+        if (data.temperature > 40) {
+            await this.serviceAlarm.createHighTemperatureAlarm();
+        } else if (data.temperature < 15) {
+            await this.serviceAlarm.createLowTemperatureAlarm();
+        }
+
+      const saved = await this.serviceClimate.saveReading(data.temperature, data.humidity);
       this.io.emit("climate:update", { source: "save/temperature", data: saved });
       return response.status(201).json(saved);
     } catch (err) { return next(err); }
@@ -62,7 +73,7 @@ class ClimateController implements Controller {
   private saveHumidity = async (request: Request, response: Response, next: NextFunction) => {
     try {
       const data = await this.fetchFromEsp32();
-      const saved = await this.service.saveReading(data.temperature, data.humidity);
+      const saved = await this.serviceClimate.saveReading(data.temperature, data.humidity);
       this.io.emit("climate:update", { source: "save/humidity", data: saved });
       return response.status(201).json(saved);
     } catch (err) { return next(err); }
@@ -70,7 +81,7 @@ class ClimateController implements Controller {
 
   private getLatestSaved = async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const doc = await this.service.getLatest();
+      const doc = await this.serviceClimate.getLatest();
       return response.status(200).json(doc);
     } catch (err) { return next(err); }
   };
@@ -83,7 +94,7 @@ class ClimateController implements Controller {
       }
 
       const olderThanHours: number | undefined = value.olderThanHours;
-      const result = await this.service.deleteData(olderThanHours);
+      const result = await this.serviceClimate.deleteData(olderThanHours);
       this.io.emit("climate:deleted", { olderThanHours, result });
       return response.status(200).json({ deletedCount: result.deletedCount });
     } catch (err) { return next(err); }
@@ -102,7 +113,7 @@ class ClimateController implements Controller {
 
       socket.on("climate:latest", async () => {
         try {
-          const latest = await this.service.getLatest();
+          const latest = await this.serviceClimate.getLatest();
           socket.emit("climate:update", { source: "ws:latest", data: latest });
         } catch (err) {
           socket.emit("error", { scope: "climate:latest", message: (err as Error).message });

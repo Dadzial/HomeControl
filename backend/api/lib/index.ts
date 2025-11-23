@@ -5,6 +5,7 @@ import WeatherController from "./controllers/weather.controller";
 import ClimateController from "./controllers/climate.controller";
 import EnergyController from "./controllers/energy.controller";
 import GazController from "./controllers/gaz.controller";
+import AlarmController from "./controllers/alarm.controller";
 
 const app = new App();
 
@@ -18,6 +19,7 @@ app.app.use((req, res, next) => {
 
 const io = app.getIo();
 const controllers = [
+    new AlarmController(),
     new GazController(),
     new EnergyController(),
     new ClimateController(io),

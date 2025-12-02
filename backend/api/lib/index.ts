@@ -6,6 +6,8 @@ import ClimateController from "./controllers/climate.controller";
 import EnergyController from "./controllers/energy.controller";
 import GazController from "./controllers/gaz.controller";
 import AlarmController from "./controllers/alarm.controller";
+import MotionController from "./controllers/motion.controller";
+import GatesController from "./controllers/gates.controller";
 
 const app = new App();
 
@@ -19,6 +21,8 @@ app.app.use((req, res, next) => {
 
 const io = app.getIo();
 const controllers = [
+    new GatesController(),
+    new MotionController(),
     new AlarmController(),
     new GazController(),
     new EnergyController(),

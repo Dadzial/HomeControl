@@ -1,7 +1,11 @@
 import AlarmModel from "../schemas/alarm.schema";
 import {AlarmType, IAlarm} from "../models/alarm.model";
 
+
 class AlarmService {
+
+    private lastMotionAlarm: Date | null = null;
+
     public async createAlarm(alarm: IAlarm) {
        try {
            const alarmModel = new AlarmModel(alarm);
@@ -50,6 +54,15 @@ class AlarmService {
             triggerAt: new Date(),
         });
     }
+
+    public async createMotionAlarm() {
+        const now = new Date();
+        return this.createAlarm({
+            type: AlarmType.motion,
+            triggerAt: now,
+        });
+    }
+
 
 }
 

@@ -4,13 +4,8 @@ import axios from "axios";
 
 class GatesController implements Controller {
     public path = "/api/gates";
-    public router = Router()
+    public router = Router();
     public esp32EndPoint = "http://192.168.2.241";
-
-    //TODO: Nastepnym i pewnie ostanim kontrolerem bedzie kontroler gates
-    //TODO: chodzi mi tu o zrobienie enpointow do otwierania i zamykania oraz zatrzyamania bramy na podstawie
-    //TODO: enpointu z esp32 ktory dostaniesz zadnych serwisow i bazy
-    //TODO: uzyj do axios juz zaimportowanego
 
     constructor() {
         this.initializeRoutes();
@@ -22,11 +17,57 @@ class GatesController implements Controller {
         this.router.post(`${this.path}/stop`, this.stopGate);
     }
 
-    private openGate = async (req: Request, res: Response, next: NextFunction) => {};
+    private async sendGateCommand(
+        action: "open" | "close" | "stop",
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            const url = `${this.esp32EndPoint}/gate`;
 
-    private closeGate = async (req: Request, res: Response, next: NextFunction) => {};
+            const { data, status } = await axios.post(
+                url,
+                { action },
+                { timeout: 4000 }
+            );
 
-    private stopGate = async (req: Request, res: Response, next: NextFunction) => {};
+            return res.status(200).json({
+                action,
+                espStatus: status,
+                espResponse: data,
+            });
+        } catch (error: any) {
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    return res.status(502).json({
+                        message: "Błąd komunikacji z bramą",
+                        espStatus: error.response.status,
+                        espResponse: error.response.data,
+                    });
+                }
 
+                if (error.request) {
+                    return res.status(504).json({
+                        message: "Brak odpowiedzi z ESP32",
+                    });
+                }
+            }
+
+            return next(error);
+        }
+    }
+
+    private openGate = async (_req: Request, res: Response, next: NextFunction) => {
+        return this.sendGateCommand("open", res, next);
+    };
+
+    private closeGate = async (_req: Request, res: Response, next: NextFunction) => {
+        return this.sendGateCommand("close", res, next);
+    };
+
+    private stopGate = async (_req: Request, res: Response, next: NextFunction) => {
+        return this.sendGateCommand("stop", res, next);
+    };
 }
+
 export default GatesController;

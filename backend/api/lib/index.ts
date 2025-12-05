@@ -29,7 +29,8 @@ const controllers = [
     new ClimateController(io),
     new LightController(io),
     new UserController(),
-    new WeatherController()
+    new WeatherController(),
+    new GatesController()
 ];
 
 controllers.forEach(controller => {

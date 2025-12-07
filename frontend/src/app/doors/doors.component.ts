@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-doors',
-  imports: [],
+  imports: [
+    MatButton
+  ],
   templateUrl: './doors.component.html',
   styleUrl: './doors.component.css'
 })

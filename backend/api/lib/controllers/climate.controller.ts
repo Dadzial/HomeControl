@@ -58,7 +58,7 @@ class ClimateController implements Controller {
     try {
       const data = await this.fetchFromEsp32();
 
-        if (data.temperature > 40) {
+        if (data.temperature > 26) { //value for test
             await this.serviceAlarm.createHighTemperatureAlarm();
         } else if (data.temperature < 15) {
             await this.serviceAlarm.createLowTemperatureAlarm();

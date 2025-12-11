@@ -55,6 +55,15 @@ export class AlarmComponent implements OnInit {
     this.temperatureAlarm = event;
     this.motionAlarm = event;
     this.gasAlarm = event;
+
+    this.alarmsService.toggleAlarms({
+      temperature: this.temperatureAlarm,
+      motion: this.motionAlarm,
+      gas: this.gasAlarm
+    }).subscribe({
+      next: () => console.log('All alarms toggled'),
+      error: (err) => console.error(err)
+    });
   }
 
   toggleAlarm(alarm: string) {
@@ -65,5 +74,14 @@ export class AlarmComponent implements OnInit {
     } else if (alarm === 'gas') {
       this.gasAlarm = !this.gasAlarm;
     }
+
+    this.alarmsService.toggleAlarms({
+      temperature: this.temperatureAlarm,
+      motion: this.motionAlarm,
+      gas: this.gasAlarm
+    }).subscribe({
+      next: () => console.log(`${alarm} alarm toggled`),
+      error: (err) => console.error(err)
+    });
   }
 }

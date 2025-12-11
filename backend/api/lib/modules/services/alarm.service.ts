@@ -4,8 +4,6 @@ import {AlarmType, IAlarm} from "../models/alarm.model";
 
 class AlarmService {
 
-    private lastMotionAlarm: Date | null = null;
-
     public async createAlarm(alarm: IAlarm) {
        try {
            const alarmModel = new AlarmModel(alarm);

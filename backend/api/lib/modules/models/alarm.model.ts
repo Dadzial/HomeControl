@@ -1,8 +1,8 @@
 
 export enum AlarmType {
     motion = 'motion',
-    temperatureRising = 'temperature_rising',
-    temperatureDown = 'temperature_down',
+    temperatureRising = 'temperature rising',
+    temperatureDown = 'temperature down',
     gas = 'gas'
 }
 

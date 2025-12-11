@@ -23,4 +23,8 @@ export class AlarmsService {
   deleteAlarms(): Observable<void> {
     return this.httpClient.delete<void>(`${this.apiUrl}/delete`);
   }
+
+  toggleAlarms(settings: Record<string, boolean>): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiUrl}/toggle`, settings);
+  }
 }

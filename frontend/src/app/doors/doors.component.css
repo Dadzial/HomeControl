@@ -1,9 +1,9 @@
-.doors-container{
+.doors-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: end;
-  align-items: flex-start;
+  justify-content: flex-start;
+  align-items: stretch;
   position: relative;
   color: white;
   background-color: #232632;
@@ -16,21 +16,44 @@
 .doors-container h1 {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
+  align-self: flex-start;
+}
+
+.gate-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+  flex-shrink: 0;
+}
+
+.gate {
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 button[mat-raised-button] {
-  width: 40%;
-  margin: auto;
+  width: 80%;
+  max-width: 120px;
   color: #ffffff;
   font-weight: 800;
   background-color: #005CBB;
   border-radius: 1.2rem;
-  padding: 0.75rem 1rem;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }
 
 .open_time {
+  align-self: flex-start;
   font-size: 14px;
   font-weight: 300;
-  margin-top: 4px;
   color: #ccc;
+  margin-top: auto;
 }

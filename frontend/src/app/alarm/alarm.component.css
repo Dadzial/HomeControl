@@ -1,9 +1,9 @@
-.alarm-container{
+.alarm-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  align-items: flex-start;
+  justify-content: flex-start;
+  align-items: stretch;
   position: relative;
   color: white;
   background-color: #232632;
@@ -12,21 +12,44 @@
   overflow: hidden;
   z-index: 1;
 }
+
 .alarm-header {
   display: flex;
-  justify-content:  space-between;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   gap: 10px;
 }
+
+.alarm-header .header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .alarm-container h1 {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
 }
+
+button[mat-raised-button] {
+  background-color: #005CBB;
+  color: white;
+  min-width: 50px;
+  height: 33px;
+  padding: 0 12px;
+  font-size: 0.875rem;
+  line-height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .alarms-row {
   display: flex;
-  gap: 16px;
+  gap: 8px;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .alarm-card {
@@ -34,13 +57,27 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  width: 100%;
-  flex: 1;
+  padding: 8px;
+  flex: 1 1 0;
+  min-width: 0;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
   color: white;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.alarm-card mat-icon {
+  font-size: clamp(20px, 8vw, 32px);
+  max-height: 32px;
+  width: auto;
+  height: auto;
+}
+
+.alarm-card span {
+  font-size: clamp(10px, 2vw, 5px);
+  margin-top: 6px;
 }
 
 .alarm-card.active {
@@ -53,15 +90,69 @@
 
 .alarms-bottom {
   display: flex;
-  justify-content: start;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   width: 100%;
+  margin-top: 20px;
+  gap: 10px;
 }
 
 .alarms-bottom h1 {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 18px;
 }
 
+.alarms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-height: 160px;
+  overflow-y: auto;
+  padding-right: 4px;
+  box-sizing: border-box;
+}
 
+.alarms-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.alarms-list::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 3px;
+}
+
+.alarms-list::-webkit-scrollbar-track {
+  background: #2c2f3c;
+}
+
+.alarm-item {
+  display: flex;
+  align-items: center;
+  background: #2c2f3c;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #eaeaea;
+  border-left: 4px solid #42a5f5;
+  transition: 0.2s;
+}
+
+.alarm-item span:first-of-type {
+  margin-left: 8px;
+}
+
+.alarm-item span:last-of-type {
+  margin-left: auto;
+}
+
+.alarm-item:hover {
+  background: #323644;
+}
+
+.alarm-item mat-icon {
+  font-size: 22px;
+  margin-right: 10px;
+  color: #90caf9;
+}

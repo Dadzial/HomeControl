@@ -1,7 +1,8 @@
 <div class="alarm-container">
   <div class="alarm-header">
     <h1>Security</h1>
-    <div class="toggle-all-switch">
+    <div class="header-controls">
+      <button mat-raised-button (click)="deleteAlarms()" >Clear</button>
       <mat-slide-toggle
         [ngModel]="allAlarmsOn"
         (ngModelChange)="toggleAllAlarms($event)">
@@ -35,5 +36,12 @@
   </div>
   <div class="alarms-bottom">
     <h1>Alarm history</h1>
+    <div class="alarms-list">
+      <div class="alarm-item" *ngFor="let alarm of alarms">
+        <mat-icon>{{ alarm.type === 'motion' ? 'directions_run' : 'whatshot' }}</mat-icon>
+        <span>{{ alarm.type | titlecase }}</span>
+        <span>{{ alarm.triggerAt | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+      </div>
+    </div>
   </div>
 </div>

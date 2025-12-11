@@ -1,7 +1,16 @@
 <div class="doors-container">
   <h1>Doors & Gates</h1>
 
-  <button mat-raised-button >Open</button>
-  <span class="open_time">13:15:34 20.11.2025</span>
-</div>
+  <div class="gate-wrapper">
+    <ng-lottie class="gate"
+               [options]="options"
+               (animationCreated)="animationCreated($event)">
+    </ng-lottie>
 
+    <button mat-raised-button (click)="isOpen ? closeGate() : openGate()">
+      {{ isOpen ? 'Close' : 'Open' }}
+    </button>
+  </div>
+
+  <span class="open_time">Last open :{{ lastActionTime | date: 'HH:mm:ss dd.MM.yyyy' }}</span>
+</div>

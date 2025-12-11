@@ -1,4 +1,4 @@
-.energy-container{
+.energy-container {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -12,19 +12,23 @@
   overflow: hidden;
   z-index: 1;
 }
+
 .energy-container h1 {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
 }
+
 .energy-display {
   display: flex;
   gap: 10px;
   align-items: center;
 }
+
 .energy-display h1 {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
 }
+
 .energy-time {
   font-size: 14px;
   font-weight: 300;

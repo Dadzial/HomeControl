@@ -35,12 +35,13 @@ class GatesController implements Controller {
                 action,
                 espStatus: status,
                 espResponse: data,
+                timestamp: new Date(),
             });
         } catch (error: any) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
                     return res.status(502).json({
-                        message: "Błąd komunikacji z bramą",
+                        message: "Error communication",
                         espStatus: error.response.status,
                         espResponse: error.response.data,
                     });
@@ -48,7 +49,7 @@ class GatesController implements Controller {
 
                 if (error.request) {
                     return res.status(504).json({
-                        message: "Brak odpowiedzi z ESP32",
+                        message: "No response from ESP32",
                     });
                 }
             }

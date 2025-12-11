@@ -5,12 +5,13 @@ import axios from "axios";
 
 class MotionController implements Controller {
     public path = "/api/motion";
-    public router = Router()
+    public router = Router();
     public esp32EndPoint = "http://192.168.2.241";
     public alarmService = new AlarmService();
 
     constructor() {
         this.initializeRoutes();
+        this.startPolling();
     }
 
     private initializeRoutes() {
@@ -20,11 +21,14 @@ class MotionController implements Controller {
     private getMotionData = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const motionData = await this.getMotionDataFromEsp32();
+
             if (motionData.motion) {
+                console.log("Motion detected (manual), creating alarm...");
                 await this.alarmService.createMotionAlarm();
             }
+
             return res.status(200).json({ motionData });
-        } catch (error) {
+        } catch (error: any) {
             return res.status(500).json({
                 success: false,
                 message: "Cannot get data from ESP32",
@@ -38,5 +42,20 @@ class MotionController implements Controller {
         return motionData.data;
     }
 
+    private startPolling() {
+        setInterval(async () => {
+            try {
+                const motionData = await this.getMotionDataFromEsp32();
+
+                if (motionData.motion) {
+                    console.log("Motion detected (auto), creating alarm...");
+                    await this.alarmService.createMotionAlarm();
+                }
+            } catch (err: any) {
+                console.error("Error polling ESP32:", err.message);
+            }
+        }, 1000);
+    }
 }
+
 export default MotionController;

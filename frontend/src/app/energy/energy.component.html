@@ -1,10 +1,17 @@
 <div class="energy-container">
-  <h1>Energy</h1>
-  <div class="energy-display">
-    <mat-icon>bolt</mat-icon>
-    <h1> {{energy}} kWh</h1>
+  <h1 class="energy-title">Energy</h1>
+  <div class="energy-bottom">
+    <div class="energy-display">
+      <mat-icon>bolt</mat-icon>
+      <h1 *ngIf="energy !== undefined; else noData">
+        {{ energy }} kWh
+      </h1>
+      <ng-template #noData>
+        <h1>No reading</h1>
+      </ng-template>
+    </div>
+    <span *ngIf="time" class="energy-time">
+      Updated: {{ time | date: 'yyyy-MM-dd HH:mm:ss' }}
+    </span>
   </div>
-  <span *ngIf="time" class="energy-time">
-    Updated: {{ time | date: 'yyyy-MM-dd HH:mm:ss' }}
-</span>
 </div>

@@ -5,11 +5,12 @@ import axios from "axios";
 import ClimateService from "../modules/services/climate.service";
 import AlarmService from "../modules/services/alarm.service";
 import { deleteClimateQuerySchema } from "../modules/schemas/climate.schema";
+import { config } from "../config";
 
 class ClimateController implements Controller {
   public path = "/api/climate";
   public router = Router();
-  public esp32EndPoint = "http://192.168.2.241";
+  private esp32EndPoint = config.esp32EndPoint;
   private io: Server;
   private serviceClimate: ClimateService;
   private serviceAlarm: AlarmService;

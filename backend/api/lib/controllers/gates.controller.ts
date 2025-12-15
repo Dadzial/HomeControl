@@ -1,11 +1,12 @@
 import Controller from "../interfaces/controller.interface";
 import { NextFunction, Request, Response, Router } from "express";
 import axios from "axios";
+import { config } from "../config";
 
 class GatesController implements Controller {
     public path = "/api/gates";
     public router = Router();
-    public esp32EndPoint = "http://192.168.2.241";
+    public esp32EndPoint = config.esp32EndPoint;
 
     constructor() {
         this.initializeRoutes();

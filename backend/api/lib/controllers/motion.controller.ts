@@ -2,11 +2,12 @@ import Controller from "../interfaces/controller.interface";
 import { NextFunction, Request, Response, Router } from "express";
 import AlarmService from "../modules/services/alarm.service";
 import axios from "axios";
+import { config } from "../config";
 
 class MotionController implements Controller {
     public path = "/api/motion";
     public router = Router();
-    public esp32EndPoint = "http://192.168.2.241";
+    public esp32EndPoint = config.esp32EndPoint;
     public alarmService = new AlarmService();
 
     constructor() {

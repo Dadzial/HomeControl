@@ -2,11 +2,12 @@ import Controller from "../interfaces/controller.interface";
 import { NextFunction, Request, Response, Router } from "express";
 import axios from "axios";
 import AlarmService from "../modules/services/alarm.service";
+import { config } from "../config";
 
 class GazController implements Controller {
     public path = '/api/gaz';
     public router: Router = Router();
-    public esp32EndPoint = "http://192.168.2.241";
+    private esp32EndPoint = config.esp32EndPoint;
     public serviceAlarm: AlarmService;
 
     constructor() {

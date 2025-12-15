@@ -6,8 +6,9 @@ export const config = {
     databaseUrl: process.env.DATABASE_URL as string,
     JwtSecret: process.env.JWT_SECRET as string,
     socketPort: process.env.SOCKET_PORT || 3000,
+    esp32EndPoint: process.env.ESP32_ENDPOINT as string,
 
-     openWeather: {
+    openWeather: {
     apiKey: process.env.OPENWEATHER_API_KEY as string,
     lat: parseFloat(process.env.OPENWEATHER_LAT || "52.2297"),
     lon: parseFloat(process.env.OPENWEATHER_LON || "21.0122"),

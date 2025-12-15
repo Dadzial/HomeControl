@@ -7,11 +7,12 @@ import {
     RoomsUnion,
 } from "../modules/schemas/lights.schema";
 import LightsService from "../modules/services/lights.service";
+import { config } from "../config";
 
 class LightController implements Controller {
     public path = "/api/light";
     public router = Router();
-    public esp32EndPoint = "http://192.168.2.241";
+    private esp32EndPoint = config.esp32EndPoint;
     private io: Server;
     private service: LightsService;
 

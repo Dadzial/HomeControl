@@ -21,7 +21,17 @@ class EnergyController implements Controller {
     };
 
     private generateEnergyData(): number {
-        return parseFloat((Math.random() * 4.5 + 0.5).toFixed(2));
+        const hour = new Date().getHours();
+
+        let baseUsage: number;
+        if (hour >= 0 && hour < 6) baseUsage = 0.5;
+        else if (hour >= 6 && hour < 12) baseUsage = 1.5;
+        else if (hour >= 12 && hour < 18) baseUsage = 2.5;
+        else baseUsage = 3.5;
+
+        const variation = (Math.random() - 0.5) * 0.6;
+
+        return parseFloat((baseUsage + variation).toFixed(2));
     }
 }
 

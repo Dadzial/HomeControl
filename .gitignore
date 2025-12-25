@@ -6,6 +6,7 @@ backend/api/.env
 backend/api/package-lock.json
 backend/api/*.log
 backend/api/nodemon.json
+backend/api/logs/
 
 # Angular / frontend
 frontend/node_modules/

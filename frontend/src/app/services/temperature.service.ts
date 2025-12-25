@@ -24,4 +24,8 @@ export class TemperatureService {
   saveTemperature(temperature: number): Observable<any> {
     return this.httpClient.post(`${this.apiUrl}/save/temperature`, { temperature, time: new Date() });
   }
+
+  clearChart(): Observable<any> {
+    return this.httpClient.delete(`${this.apiUrl}/delete`);
+  }
 }

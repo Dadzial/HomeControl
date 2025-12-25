@@ -1,15 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
 import {MatIcon} from '@angular/material/icon';
-import {NgIf} from '@angular/common';
+import {DatePipe, NgIf} from '@angular/common';
 import {Humidity, HumidityService} from '../services/humidity.service';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
-import { ScaleType } from '@swimlane/ngx-charts';
-import {MatButton} from '@angular/material/button';
+
 
 @Component({
   selector: 'app-humidity',
-  imports: [MatIcon, NgIf, NgxChartsModule],
+  imports: [MatIcon, NgIf,DatePipe],
   templateUrl: './humidity.component.html',
   styleUrl: './humidity.component.css'
 })

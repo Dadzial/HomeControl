@@ -6,6 +6,16 @@
       <span class="toolbar-title">Home-Control</span>
     </div>
     <div class="user-container">
+      <div class="online-status">
+        <mat-icon
+          class="online-icon"
+          [style.color]="serverOnline ? '#4caf50' : '#f44336'">
+          wifi
+        </mat-icon>
+        <span class="online-text" [style.color]="serverOnline ? '#4caf50' : '#f44336'">
+              {{ serverOnline ? 'Online' : 'Offline' }}
+        </span>
+      </div>
       <span class="user-info">
         <div class="user-icon">
           <mat-icon>account_circle</mat-icon>

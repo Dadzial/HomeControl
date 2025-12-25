@@ -4,6 +4,11 @@ import { provideHttpClient } from '@angular/common/http';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import { provideLottieOptions } from 'ngx-lottie';
 import { routes } from './app.routes';
+import {providePrimeNG} from 'primeng/config';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+
+
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,5 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideLottieOptions({
       player:() => import('lottie-web'),
     }),
+    provideAnimationsAsync(),
+    providePrimeNG()
   ],
 };

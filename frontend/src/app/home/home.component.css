@@ -40,6 +40,21 @@ mat-toolbar.custom-toolbar {
   color: #ffffff;
 }
 
+.online-status {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+.online-text{
+  color:#ffffff;
+  font-weight: bold;
+  font-size: 17px;
+}
+.online-icon{
+  color:#ffffff;
+  margin-right: 5px;
+}
+
 .user-container {
   display: flex;
   align-items: center;
@@ -181,6 +196,7 @@ mat-toolbar.custom-toolbar {
   .dashboard-grid { flex-direction: column; height: auto; }
   .left-card, .right-cards { width: 100% !important; }
   .right-cards { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; }
+  .custom-toolbar {}
 }
 
 @media (max-width: 1199px) {
@@ -192,15 +208,18 @@ mat-toolbar.custom-toolbar {
   .main-container { overflow-y: auto; }
   .right-cards { width: 100% !important; }
   .bottom-card { flex-direction: column; }
+  .custom-toolbar {}
 }
 
 @media (max-width: 767px) {
   .main-container { overflow-y: auto; }
   .right-cards { width: 100% !important; grid-template-columns: 1fr; grid-template-rows: repeat(5, auto); }
   .right-cards > * { height: auto !important; min-height: 0; }
+  .custom-toolbar {}
 }
 
 @media (max-width: 575px) {
+  /* ... Twoje istniejące style dla main-container i dashboard-grid zostają bez zmian ... */
   .main-container {
     overflow-y: auto;
   }
@@ -210,6 +229,87 @@ mat-toolbar.custom-toolbar {
     padding: 10px;
     gap: 10px;
   }
+
+  /* --- POPRAWIONY TOOLBAR NA TELEFON --- */
+  .custom-toolbar {
+    height: 56px !important; /* Mniejsza wysokość na mobile */
+    padding: 0 10px !important;
+    justify-content: space-between;
+  }
+
+  .logo {
+    height: 30px !important; /* Mniejsze logo */
+    margin-right: 5px;
+  }
+
+  .toolbar-title {
+    font-size: 16px !important; /* Mniejszy tytuł, by starczyło miejsca na login */
+    white-space: nowrap;
+  }
+
+  /* Ukrywamy napis "Online", zostawiamy tylko ikonkę statusu */
+  .online-text {
+    display: none;
+  }
+
+  .online-status {
+    margin-right: 5px;
+  }
+
+  .user-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 50%;
+  }
+
+  .user-info {
+    background-color: #232632;
+    padding: 0 6px !important;
+    margin-right: 0 !important;
+    border-radius: 20px !important;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .user-icon {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px;
+  }
+
+  .user-icon mat-icon {
+    font-size: 18px !important;
+    width: 18px;
+    height: 18px;
+  }
+
+
+  .username-display {
+    display: block !important;
+    font-size: 11px !important;
+    margin-left: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 65px;
+  }
+
+  .logout-button {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px;
+    margin-left: 2px;
+  }
+
+  .logout-button mat-icon {
+    font-size: 18px !important;
+    width: 18px;
+    height: 18px;
+  }
+
 
   .left-card,
   .right-cards,

@@ -2,7 +2,9 @@
   <div class="alarm-header">
     <h1>Security</h1>
     <div class="header-controls">
-      <button mat-raised-button (click)="deleteAlarms()" >Clear</button>
+      <button class="clear-button" mat-icon-button (click)="deleteAlarms()">
+        <mat-icon>delete</mat-icon>
+      </button>
       <mat-slide-toggle
         [ngModel]="allAlarmsOn"
         (ngModelChange)="toggleAllAlarms($event)">

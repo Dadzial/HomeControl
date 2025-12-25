@@ -21,6 +21,28 @@
   position: relative;
 }
 
+.temperature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+.clear-button {
+  background-color: #1565b6;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin-left: 0;
+}
+.clear-button mat-icon {
+  color: #ffffff;
+}
+
 .temperature-container::before {
   content: "";
   position: absolute;
@@ -44,7 +66,7 @@
 .temperature-bottom {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   gap: 20px;
   z-index: 1;
@@ -83,3 +105,26 @@
   color: #ccc;
   margin-top: 4px;
 }
+
+.temperature-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  z-index: 1;
+}
+
+.my-temperature-chart {
+  display: flex;
+  min-width: 400px;
+  min-height: 200px;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+
+
+
+
+

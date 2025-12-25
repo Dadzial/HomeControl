@@ -2,9 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-interface alarmsResponse {
+export interface AlarmsResponse {
   type: string;
   triggerAt: Date;
+}
+
+export interface AlarmSettings {
+  motion: boolean;
+  temperature: boolean;
+  gas: boolean;
 }
 
 @Injectable({
@@ -16,15 +22,19 @@ export class AlarmsService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getAlarms(): Observable<alarmsResponse[]> {
-    return this.httpClient.get<alarmsResponse[]>(`${this.apiUrl}/all`);
+  getAlarms(): Observable<AlarmsResponse[]> {
+    return this.httpClient.get<AlarmsResponse[]>(`${this.apiUrl}/all`);
+  }
+
+  getSettings(): Observable<AlarmSettings> {
+    return this.httpClient.get<AlarmSettings>(`${this.apiUrl}/settings`);
   }
 
   deleteAlarms(): Observable<void> {
     return this.httpClient.delete<void>(`${this.apiUrl}/delete`);
   }
 
-  toggleAlarms(settings: Record<string, boolean>): Observable<void> {
-    return this.httpClient.post<void>(`${this.apiUrl}/toggle`, settings);
+  toggleAlarms(type: string, enabled: boolean): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiUrl}/toggle`, { type, enabled });
   }
 }

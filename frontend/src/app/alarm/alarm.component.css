@@ -32,17 +32,27 @@
   font-weight: 400;
 }
 
-button[mat-raised-button] {
-  background-color: #005CBB;
-  color: white;
-  min-width: 50px;
-  height: 33px;
-  padding: 0 12px;
-  font-size: 0.875rem;
-  line-height: 36px;
+.clear-button {
+  background-color: #1565b6;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  padding: 0 !important;
+  min-width: 35px !important;
+  line-height: 35px !important;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.clear-button mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  color: #ffffff;
 }
 
 .alarms-row {

@@ -13,6 +13,7 @@ import {HumidityComponent} from '../humidity/humidity.component';
 import {LightsComponent} from '../lights/lights.component';
 import {CO2SensorComponent} from '../co2-sensor/co2-sensor.component';
 import {WeatherComponent} from '../weather/weather.component';
+import {Subscription, switchMap, timer} from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -24,16 +25,24 @@ import {WeatherComponent} from '../weather/weather.component';
 export class HomeComponent implements OnInit, OnDestroy , AfterViewInit {
 
   public displayName: string = '';
+  public serverOnline: boolean = true;
+  private serverSub?: Subscription;
 
   constructor(private logoutService:LogoutService,private router:Router ,private authService:AuthService) {}
 
   ngOnInit(): void {
+    this.serverSub = timer(0, 5000).pipe(
+      switchMap(() => this.authService.pingServer())
+    ).subscribe({
+      next: (online) => this.serverOnline = online,
+      error: () => this.serverOnline = false
+    });
+
     const token = this.authService.getToken();
     if (token && !this.authService.isTokenExpired(token)) {
       console.log("User already logged in, redirecting...");
       this.router.navigate(['/home']);
     }
-
     const name = this.authService.getDisplayName();
     this.displayName = name || '';
   }
@@ -43,7 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy , AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    console.log('Component has been destroyed');
+    this.serverSub?.unsubscribe();
   }
 
   public onLogout(): void {

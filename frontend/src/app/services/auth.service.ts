@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {catchError, map, Observable, of} from 'rxjs';
 
 interface TokenResponse {
     token: string;
@@ -14,6 +14,13 @@ export class AuthService {
   private apiUrl = 'http://localhost:3100/api/user'
 
   constructor(private httpClient: HttpClient) { }
+
+  pingServer(): Observable<boolean> {
+    return this.httpClient.get<{status:string}>(`${this.apiUrl}/ping`).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
 
   login(username: string, password: string): Observable<TokenResponse> {
     return this.httpClient.post<TokenResponse>(`${this.apiUrl}/auth`, {

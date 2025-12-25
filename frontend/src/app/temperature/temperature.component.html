@@ -1,5 +1,11 @@
 <div class="temperature-container">
-  <h1 class="temperature-title">Temperature</h1>
+  <div class="temperature-header">
+    <h1 class="temperature-title">Temperature</h1>
+      <button mat-icon-button (click)="clearChart()" class="clear-button">
+        <mat-icon>refresh</mat-icon>
+      </button>
+  </div>
+
   <div class="temperature-bottom">
     <div class="temperature-display">
       <div class="temperature-main">
@@ -15,5 +21,6 @@
          Updated: {{ time | date: 'yyyy-MM-dd HH:mm:ss' }}
       </span>
     </div>
+    <p-chart class="my-temperature-chart" type="line" [data]="basicData" [options]="basicOptions"></p-chart>
   </div>
 </div>

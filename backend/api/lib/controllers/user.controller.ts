@@ -1,5 +1,5 @@
 import Controller from "../interfaces/controller.interface";
-import {Router} from "express";
+import {request, Router} from "express";
 import {Request, Response, NextFunction} from 'express';
 import {auth} from '../middlewares/auth.middleware';
 import {admin} from '../middlewares/admin.middleware';
@@ -21,11 +21,20 @@ class UserController implements Controller {
    }
 
    private initializeRoutes() {
+       this.router.get(`${this.path}/ping`,this.pingServer)
        this.router.post(`${this.path}/create`, this.createNewOrUpdate);
        this.router.post(`${this.path}/auth`, this.authenticate);
        this.router.post(`${this.path}/reset-password`, this.resetPassword);
        this.router.delete(`${this.path}/logout/:userId`, auth, this.removeHashSession);
    }
+
+    private pingServer = async (request: Request, response: Response, next: NextFunction) => {
+        try {
+            return response.status(200).json({ status: 'ok' });
+        } catch (err) {
+            return next(err);
+        }
+    };
 
    private authenticate = async (request: Request, response: Response, next: NextFunction) => {
     const { login, password } = request.body;

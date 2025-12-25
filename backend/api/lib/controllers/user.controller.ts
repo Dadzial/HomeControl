@@ -1,98 +1,99 @@
 import Controller from "../interfaces/controller.interface";
-import {request, Router} from "express";
-import {Request, Response, NextFunction} from 'express';
-import {auth} from '../middlewares/auth.middleware';
-import {admin} from '../middlewares/admin.middleware';
+import { Router, Request, Response, NextFunction } from 'express';
+import { auth } from '../middlewares/auth.middleware';
 import UserService from "../modules/services/user.service";
 import PasswordService from "../modules/services/password.service";
 import TokenService from "../modules/services/token.service";
-
-
+import logger from "../utils/logger"; // Import loggera
 
 class UserController implements Controller {
-   public path = '/api/user';
-   public router = Router();
-   private userService = new UserService();
-   private passwordService = new PasswordService();
-   private tokenService = new TokenService();
+    public path = '/api/user';
+    public router = Router();
+    private userService = new UserService();
+    private passwordService = new PasswordService();
+    private tokenService = new TokenService();
 
-   constructor() {
-       this.initializeRoutes();
-   }
+    constructor() {
+        this.initializeRoutes();
+    }
 
-   private initializeRoutes() {
-       this.router.get(`${this.path}/ping`,this.pingServer)
-       this.router.post(`${this.path}/create`, this.createNewOrUpdate);
-       this.router.post(`${this.path}/auth`, this.authenticate);
-       this.router.post(`${this.path}/reset-password`, this.resetPassword);
-       this.router.delete(`${this.path}/logout/:userId`, auth, this.removeHashSession);
-   }
+    private initializeRoutes() {
+        this.router.get(`${this.path}/ping`, this.pingServer);
+        this.router.post(`${this.path}/create`, this.createNewOrUpdate);
+        this.router.post(`${this.path}/auth`, this.authenticate);
+        this.router.post(`${this.path}/reset-password`, this.resetPassword);
+        this.router.delete(`${this.path}/logout/:userId`, auth, this.removeHashSession);
+    }
 
     private pingServer = async (request: Request, response: Response, next: NextFunction) => {
         try {
             return response.status(200).json({ status: 'ok' });
-        } catch (err) {
+        } catch (err: any) {
+            logger.error(`Ping error: ${err.message}`);
             return next(err);
         }
     };
 
-   private authenticate = async (request: Request, response: Response, next: NextFunction) => {
-    const { login, password } = request.body;
- 
- 
-    try {
-        const user = await this.userService.getByEmailOrName(login);
-        if (!user) {
-            return response.status(401).json({ error: 'Unauthorized' });
-        }
+    private authenticate = async (request: Request, response: Response, next: NextFunction) => {
+        const { login, password } = request.body;
 
+        try {
+            logger.debug(`Login attempt for user: ${login}`);
 
-        const isAuthorized = await this.passwordService.authorize(user._id, password);
-        if (!isAuthorized) {
-            return response.status(401).json({ error: 'Unauthorized' });
+            const user = await this.userService.getByEmailOrName(login);
+            if (!user) {
+                logger.warn(`Failed login attempt: User not found [${login}]`);
+                return response.status(401).json({ error: 'Unauthorized' });
+            }
+
+            const isAuthorized = await this.passwordService.authorize(user._id, password);
+            if (!isAuthorized) {
+                logger.warn(`Failed login attempt: Wrong password for user [${login}]`);
+                return response.status(401).json({ error: 'Unauthorized' });
+            }
+
+            const token = await this.tokenService.create(user);
+            logger.info(`User logged in successfully: ${login} (ID: ${user._id})`);
+
+            response.status(200).json(this.tokenService.getToken(token));
+        } catch (error: any) {
+            logger.error(`Authentication Error for ${login}: ${error.message}`);
+            response.status(401).json({ error: 'Unauthorized' });
         }
- 
- 
-        const token = await this.tokenService.create(user);
-        response.status(200).json(this.tokenService.getToken(token));
-    } catch (error) {
-        console.error(`Validation Error: ${error.message}`);
-        response.status(401).json({ error: 'Unauthorized' });
-    }
- };
- 
- 
- private createNewOrUpdate = async (request: Request, response: Response, next: NextFunction) => {
-    const userData = request.body;
-    console.log('userData', userData)
-    try {
-        const user = await this.userService.createNewOrUpdate(userData);
-        if (userData.password) {
-            const hashedPassword = await this.passwordService.hashPassword(userData.password)
-            await this.passwordService.createOrUpdate({
-                userId: user._id,
-                password: hashedPassword
-            });
+    };
+
+    private createNewOrUpdate = async (request: Request, response: Response, next: NextFunction) => {
+        const userData = request.body;
+        try {
+            const user = await this.userService.createNewOrUpdate(userData);
+
+            if (userData.password) {
+                const hashedPassword = await this.passwordService.hashPassword(userData.password);
+                await this.passwordService.createOrUpdate({
+                    userId: user._id,
+                    password: hashedPassword
+                });
+            }
+
+            logger.info(`User created/updated: ${user.email || user.name} (ID: ${user._id})`);
+            response.status(200).json(user);
+        } catch (error: any) {
+            logger.error(`User creation/update failed: ${error.message}`);
+            response.status(400).json({ error: 'Bad request', value: error.message });
         }
-        response.status(200).json(user);
-    } catch (error) {
-        console.error(`Validation Error: ${error.message}`);
-        response.status(400).json({error: 'Bad request', value: error.message});
-    }
- };
- 
- 
- private removeHashSession = async (request: Request, response: Response, next: NextFunction) => {
-    const {userId} = request.params;
-    try {
-       const result = await this.tokenService.remove(userId);
-       console.log('Session removed for user:', result)
-       response.status(200).json(result);
-   } catch (error) {
-       console.error(`Validation Error: ${error.message}`);
-       response.status(401).json({error: 'Unauthorized'});
-   }
-};
+    };
+
+    private removeHashSession = async (request: Request, response: Response, next: NextFunction) => {
+        const { userId } = request.params;
+        try {
+            const result = await this.tokenService.remove(userId);
+            logger.info(`User logged out and session removed: ID ${userId}`);
+            response.status(200).json(result);
+        } catch (error: any) {
+            logger.error(`Logout failed for user ${userId}: ${error.message}`);
+            response.status(401).json({ error: 'Unauthorized' });
+        }
+    };
 
     private resetPassword = async (request: Request, response: Response, next: NextFunction) => {
         const { email, newPassword } = request.body;
@@ -104,6 +105,7 @@ class UserController implements Controller {
         try {
             const user = await this.userService.getByEmailOrName(email);
             if (!user) {
+                logger.warn(`Password reset attempt for non-existent email: ${email}`);
                 return response.status(404).json({ error: 'User not found' });
             }
 
@@ -113,14 +115,13 @@ class UserController implements Controller {
                 password: hashedPassword
             });
 
-            console.log(`Password reset for ${user.email}: ${newPassword}`);
+            logger.info(`Password successfully reset for user: ${email}`);
             response.status(200).json({ message: 'Password reset successfully.' });
-        } catch (error) {
-            console.error(`Password reset error: ${error.message}`);
+        } catch (error: any) {
+            logger.error(`Password reset error for ${email}: ${error.message}`);
             response.status(500).json({ error: 'Internal server error' });
         }
     };
-
 }
 
 export default UserController;

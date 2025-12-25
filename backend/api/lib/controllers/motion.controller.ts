@@ -3,6 +3,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import AlarmService from "../modules/services/alarm.service";
 import axios from "axios";
 import { config } from "../config";
+import logger from "../utils/logger"; // Import loggera
 
 class MotionController implements Controller {
     public path = "/api/motion";
@@ -24,12 +25,13 @@ class MotionController implements Controller {
             const motionData = await this.getMotionDataFromEsp32();
 
             if (motionData.motion) {
-                console.log("Motion detected (manual), creating alarm...");
+                logger.warn("Motion detected (manual request). Triggering alarm.");
                 await this.alarmService.createMotionAlarm();
             }
 
             return res.status(200).json({ motionData });
         } catch (error: any) {
+            logger.error(`Error in getMotionData endpoint: ${error.message}`);
             return res.status(500).json({
                 success: false,
                 message: "Cannot get data from ESP32",
@@ -39,21 +41,31 @@ class MotionController implements Controller {
     }
 
     private getMotionDataFromEsp32 = async () => {
-        const motionData = await axios.get(`${this.esp32EndPoint}/motion`);
-        return motionData.data;
+        try {
+            const url = `${this.esp32EndPoint}/motion`;
+            const response = await axios.get(url, { timeout: 800 });
+            return response.data;
+        } catch (error: any) {
+
+            logger.error(`ESP32 Motion Sensor connection error: ${error.message}`);
+            throw error;
+        }
     }
 
     private startPolling() {
+        logger.info("Starting motion sensor polling (1000ms interval)");
+
         setInterval(async () => {
             try {
                 const motionData = await this.getMotionDataFromEsp32();
 
                 if (motionData.motion) {
-                    console.log("Motion detected (auto), creating alarm...");
+                    logger.warn("MOTION DETECTED (auto-polling). Alarm created!");
                     await this.alarmService.createMotionAlarm();
                 }
             } catch (err: any) {
-                console.error("Error polling ESP32:", err.message);
+
+                logger.debug(`Polling interval error: ${err.message}`);
             }
         }, 1000);
     }

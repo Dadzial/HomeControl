@@ -1,6 +1,6 @@
 import Controller from "../interfaces/controller.interface";
 import { NextFunction, Request, Response, Router } from "express";
-
+import logger from "../utils/logger"; // Import loggera
 
 class EnergyController implements Controller {
     public path = "/api/energy";
@@ -15,9 +15,19 @@ class EnergyController implements Controller {
     }
 
     private getEnergyData = (req: Request, res: Response, next: NextFunction) => {
-        const energyData = this.generateEnergyData();
-        const timestamp = new Date();
-        res.json({ energyData, timestamp });
+        try {
+            const energyData = this.generateEnergyData();
+            const timestamp = new Date();
+
+
+            logger.debug(`Energy data requested. Generated value: ${energyData}kW`);
+
+            res.json({ energyData, timestamp });
+        } catch (error) {
+
+            logger.error(`Error in getEnergyData: ${error.message}`);
+            next(error);
+        }
     };
 
     private generateEnergyData(): number {
@@ -30,8 +40,14 @@ class EnergyController implements Controller {
         else baseUsage = 3.5;
 
         const variation = (Math.random() - 0.5) * 0.6;
+        const finalValue = parseFloat((baseUsage + variation).toFixed(2));
 
-        return parseFloat((baseUsage + variation).toFixed(2));
+
+        if (finalValue > 3.8) {
+            logger.warn(`High energy consumption simulated: ${finalValue}kW at hour ${hour}`);
+        }
+
+        return finalValue;
     }
 }
 

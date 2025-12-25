@@ -12,8 +12,8 @@ class UserService {
                return await UserModel.findByIdAndUpdate(user._id, { $set: user }, { new: true });
            }
        } catch (error) {
-           console.error('Wystąpił błąd podczas tworzenia danych:', error);
-           throw new Error('Wystąpił błąd podczas tworzenia danych');
+           console.error('Error in Data Create:', error);
+           throw new Error('Error in Data Create');
        }
    }
 
@@ -24,8 +24,8 @@ class UserService {
                return result;
            }
        } catch (error) {
-           console.error('Wystąpił błąd podczas pobierania danych:', error);
-           throw new Error('Wystąpił błąd podczas pobierania danych');
+           console.error('Error in Data Create:', error);
+           throw new Error('Error in Data Create');
        }
    }
 }

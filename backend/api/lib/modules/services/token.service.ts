@@ -31,8 +31,8 @@ class TokenService {
                return result;
            }
        } catch (error) {
-           console.error('Wystąpił błąd podczas tworzenia danych:', error);
-           throw new Error('Wystąpił błąd podczas tworzenia danych');
+           console.error('Error in create Data:', error);
+           throw new Error('Error in create Data');
        }
    }
 
@@ -45,7 +45,7 @@ class TokenService {
         const result = await TokenModel.deleteOne({ userId: userId });
     
         if (result.deletedCount === 0) {
-            throw new Error('Wystąpił błąd podczas usuwania danych');
+            throw new Error('Error in remove Data');
         }
         return result;
     } catch (error) {

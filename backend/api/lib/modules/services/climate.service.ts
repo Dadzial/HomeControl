@@ -17,7 +17,7 @@ const ClimateModel: Model<IClimateDoc> =
 
 class ClimateService {
 
-  /** Zapis kompletu (temp + hum) */
+
   async saveReading(temperature: number, humidity: number, timestamp: Date = new Date()) {
     const doc = await ClimateModel.create({ temperature, humidity, timestamp });
     return {
@@ -28,7 +28,7 @@ class ClimateService {
     };
   }
 
-  /** Ostatni zapisany dokument */
+
   async getLatest() {
     const doc = await ClimateModel.findOne().sort({ timestamp: -1 }).lean();
     return doc ? {
@@ -39,7 +39,7 @@ class ClimateService {
     } : null;
   }
 
-  /** Usuwanie danych – wszystko albo starsze niż N godzin */
+
   async deleteData(olderThanHours?: number) {
     if (!olderThanHours || olderThanHours <= 0) {
       const res = await ClimateModel.deleteMany({});

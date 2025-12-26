@@ -7,6 +7,7 @@ import { Co2ServiceService, Co2 } from '../services/co2-service.service';
 
 @Component({
   selector: 'app-co2-sensor',
+  standalone: true,
   templateUrl: './co2-sensor.component.html',
   imports: [
     NgClass,

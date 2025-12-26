@@ -219,7 +219,6 @@ mat-toolbar.custom-toolbar {
 }
 
 @media (max-width: 575px) {
-  /* ... Twoje istniejące style dla main-container i dashboard-grid zostają bez zmian ... */
   .main-container {
     overflow-y: auto;
   }
@@ -230,20 +229,20 @@ mat-toolbar.custom-toolbar {
     gap: 10px;
   }
 
-  /* --- POPRAWIONY TOOLBAR NA TELEFON --- */
+
   .custom-toolbar {
-    height: 56px !important; /* Mniejsza wysokość na mobile */
+    height: 56px !important;
     padding: 0 10px !important;
     justify-content: space-between;
   }
 
   .logo {
-    height: 30px !important; /* Mniejsze logo */
+    height: 30px !important;
     margin-right: 5px;
   }
 
   .toolbar-title {
-    font-size: 16px !important; /* Mniejszy tytuł, by starczyło miejsca na login */
+    font-size: 16px !important;
     white-space: nowrap;
   }
 

@@ -134,7 +134,7 @@ button[mat-raised-button] {
 @media (max-width: 400px) {
   .login-form {
     width: 80%;
-    padding: 1.5rem 2rem 2rem 2rem; /
+    padding: 1.5rem 2rem 2rem 2rem;
   }
 
   button[mat-raised-button],

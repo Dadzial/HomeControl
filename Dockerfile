@@ -23,13 +23,13 @@ FROM  node:20.13.1-alpine
 
 WORKDIR /HomeControl
 
-COPY --from=backend-builder /HomeControl/backend/package*.json ./backend/
+COPY --from=backend-builder /HomeControl/backend/api/package*.json ./backend/
 
 RUN cd backend && \
     npm install --production --legacy-peer-deps \
     mongoose@6.10.0
 
-COPY --from=frontend-builder /HomeControl/backend/dist ./backend/dist
+COPY --from=backend-builder /HomeControl/backend/api/dist ./backend/dist
 
 RUN mkdir -p /frontend/dist/frontend/browser
 COPY --from=frontend-builder /HomeControl/frontend/dist/frontend/browser /frontend/dist/frontend/browser

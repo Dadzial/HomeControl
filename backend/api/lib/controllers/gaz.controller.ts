@@ -3,7 +3,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import axios from "axios";
 import AlarmService from "../modules/services/alarm.service";
 import { config } from "../config";
-import logger from "../utils/logger"; // Import loggera
+import logger from "../utils/logger";
 
 class GazController implements Controller {
     public path = '/api/gaz';

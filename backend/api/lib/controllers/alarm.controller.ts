@@ -1,7 +1,7 @@
 import Controller from "../interfaces/controller.interface";
 import { NextFunction, Request, Response, Router } from "express";
 import AlarmService from "../modules/services/alarm.service";
-import logger from "../utils/logger"; // Loger już zaimportowany
+import logger from "../utils/logger";
 
 interface AlarmToggleBody {
     type: 'motion' | 'temperature' | 'gas';

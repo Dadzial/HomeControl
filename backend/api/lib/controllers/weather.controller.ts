@@ -78,7 +78,7 @@ class WeatherController implements Controller {
         try {
             if (!this.apiKey) {
                 logger.error("Weather request failed: Missing API Key");
-                return res.status(500).json({ message: "Brak OPENWEATHER_API_KEY w konfiguracji (.env)" });
+                return res.status(500).json({ message: "No API key provided" });
             }
 
             const now = Date.now();
@@ -103,7 +103,7 @@ class WeatherController implements Controller {
                 timeout: 5000,
             });
 
-            const description: string = data?.weather?.[0]?.description ?? "brak danych";
+            const description: string = data?.weather?.[0]?.description ?? "No description";
             const icon: string = data?.weather?.[0]?.icon ?? "01d";
             const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
 

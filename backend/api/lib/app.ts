@@ -6,6 +6,8 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import http from "http";
+import path from 'path';
+
 
 class App {
     public app: express.Application;
@@ -19,11 +21,21 @@ class App {
         this.connectToDatabase();
         this.server = http.createServer(this.app);
         this.initializeSocket();
+        this.initializeStaticFiles();
     }
 
     private initializeMiddlewares(): void {
         this.app.use(bodyParser.json());
         this.app.use(morgan('dev'));
+    }
+
+    private initializeStaticFiles() {
+        const frontendPath = path.join(__dirname, '../../../frontend/dist/frontend/browser');
+        this.app.use(express.static(frontendPath));
+
+        this.app.get('/', (req, res) => {
+            res.sendFile(path.join(frontendPath, 'index.html'));
+        });
     }
 
     private async connectToDatabase(): Promise<void> {

@@ -18,7 +18,6 @@ export class AlarmComponent implements OnInit, OnDestroy {
   motionAlarm: boolean = true;
   gasAlarm: boolean = true;
 
-
   allAlarmsOn: boolean = true;
 
   alarms: any[] = [];
@@ -44,13 +43,11 @@ export class AlarmComponent implements OnInit, OnDestroy {
         this.temperatureAlarm = settings.temperature;
         this.motionAlarm = settings.motion;
         this.gasAlarm = settings.gas;
-
-
         this.checkMasterToggleState();
 
-        console.log('Załadowano ustawienia alarmów:', settings);
+        console.log('load of alarm settings:', settings);
       },
-      error: (err) => console.error('Błąd pobierania ustawień:', err)
+      error: (err) => console.error('error in load of settigns', err)
     });
   }
 
@@ -101,7 +98,7 @@ export class AlarmComponent implements OnInit, OnDestroy {
     } else return;
 
 
-    this.checkMasterToggleState();
+
 
     this.alarmsService.toggleAlarms(type, enabled).subscribe({
       next: () => console.log(`${type} alarm is now ${enabled ? 'enabled' : 'disabled'}`),
@@ -110,7 +107,6 @@ export class AlarmComponent implements OnInit, OnDestroy {
         if (alarm === 'temperature') this.temperatureAlarm = !enabled;
         if (alarm === 'motion') this.motionAlarm = !enabled;
         if (alarm === 'gas') this.gasAlarm = !enabled;
-        this.checkMasterToggleState();
       }
     });
   }

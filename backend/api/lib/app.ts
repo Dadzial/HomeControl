@@ -1,4 +1,3 @@
-import Controller from "./interfaces/controller.interface";
 import express from 'express';
 import { config } from './config'
 import {Server, Socket} from "socket.io";

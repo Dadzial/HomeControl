@@ -6,7 +6,6 @@ export enum AlarmType {
     gas = 'gas'
 }
 
-
 export interface IAlarm {
     type : AlarmType;
     triggerAt : Date;

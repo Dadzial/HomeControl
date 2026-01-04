@@ -1,6 +1,6 @@
 import Controller from "../interfaces/controller.interface";
 import { NextFunction, Request, Response, Router } from "express";
-import logger from "../utils/logger"; // Import loggera
+import logger from "../utils/logger";
 
 class EnergyController implements Controller {
     public path = "/api/energy";

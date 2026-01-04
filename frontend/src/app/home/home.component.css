@@ -246,7 +246,7 @@ mat-toolbar.custom-toolbar {
     white-space: nowrap;
   }
 
-  /* Ukrywamy napis "Online", zostawiamy tylko ikonkę statusu */
+
   .online-text {
     display: none;
   }

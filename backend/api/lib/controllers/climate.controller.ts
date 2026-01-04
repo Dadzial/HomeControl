@@ -1,6 +1,5 @@
 import Controller from "../interfaces/controller.interface";
 import { NextFunction, Request, Response, Router } from "express";
-import { Server, Socket } from "socket.io";
 import axios from "axios";
 import ClimateService from "../modules/services/climate.service";
 import AlarmService from "../modules/services/alarm.service";
@@ -12,17 +11,13 @@ class ClimateController implements Controller {
     public path = "/api/climate";
     public router = Router();
     private esp32EndPoint = config.esp32EndPoint;
-    private io: Server;
     private serviceClimate: ClimateService;
     private serviceAlarm: AlarmService;
 
-
-    constructor(io: Server) {
-        this.io = io;
+    constructor() {
         this.serviceClimate = new ClimateService();
         this.serviceAlarm = new AlarmService();
         this.initializeRoutes();
-        this.initializeWebSocketHandler();
     }
 
     private initializeRoutes() {
@@ -80,7 +75,6 @@ class ClimateController implements Controller {
             const saved = await this.serviceClimate.saveReading(data.temperature, data.humidity);
             logger.info(`Climate reading saved: T:${data.temperature}, H:${data.humidity}`);
 
-            this.io.emit("climate:update", { source: "save/temperature", data: saved });
             return response.status(201).json(saved);
         } catch (err) {
             logger.error(`Error in saveTemperature: ${err.message}`);
@@ -95,7 +89,6 @@ class ClimateController implements Controller {
 
             logger.info(`Climate reading saved (via humidity endpoint): T:${data.temperature}, H:${data.humidity}`);
 
-            this.io.emit("climate:update", { source: "save/humidity", data: saved });
             return response.status(201).json(saved);
         } catch (err) {
             logger.error(`Error in saveHumidity: ${err.message}`);
@@ -118,7 +111,10 @@ class ClimateController implements Controller {
             const { error, value } = deleteClimateQuerySchema.validate(request.query, { abortEarly: false, stripUnknown: true });
             if (error) {
                 logger.warn(`Validation failed for climate data deletion: ${error.message}`);
-                return response.status(400).json({ message: "Validation failed", details: error.details.map(d => d.message) });
+                return response.status(400).json({
+                    message: "Validation failed",
+                    details: error.details.map(d => d.message)
+                });
             }
 
             const olderThanHours: number | undefined = value.olderThanHours;
@@ -126,7 +122,6 @@ class ClimateController implements Controller {
 
             logger.info(`Climate data deleted. Count: ${result.deletedCount}, Older than: ${olderThanHours}h`);
 
-            this.io.emit("climate:deleted", { olderThanHours, result });
             return response.status(200).json({ deletedCount: result.deletedCount });
         } catch (err) {
             logger.error(`Error deleting climate data: ${err.message}`);
@@ -134,38 +129,7 @@ class ClimateController implements Controller {
         }
     };
 
-    private initializeWebSocketHandler() {
-        this.io.on("connection", (socket: Socket) => {
-            logger.debug(`Socket connected in ClimateController: ${socket.id}`);
-
-            socket.on("climate:get", async () => {
-                try {
-                    const data = await this.fetchFromEsp32();
-                    socket.emit("climate:update", { source: "ws:get", data });
-                } catch (err) {
-                    logger.error(`WS climate:get error: ${err.message}`);
-                    socket.emit("error", { scope: "climate:get", message: (err as Error).message });
-                }
-            });
-
-            socket.on("climate:latest", async () => {
-                try {
-                    const latest = await this.serviceClimate.getLatest();
-                    socket.emit("climate:update", { source: "ws:latest", data: latest });
-                } catch (err) {
-                    logger.error(`WS climate:latest error: ${err.message}`);
-                    socket.emit("error", { scope: "climate:latest", message: (err as Error).message });
-                }
-            });
-
-            socket.on("disconnect", () => {
-                logger.debug(`Socket disconnected: ${socket.id}`);
-            });
-        });
-
-    }
-
-    private async fetchFromEsp32(): Promise<{ temperature: number, humidity: number, timestamp: string }> {
+    private async fetchFromEsp32(): Promise<{ temperature: number; humidity: number; timestamp: string }> {
         const url = `${this.esp32EndPoint}/dht`;
         try {
             const { data } = await axios.get(url, { timeout: 4000 });
@@ -175,6 +139,7 @@ class ClimateController implements Controller {
             if (t === "error" || h === "error" || typeof t !== "number" || typeof h !== "number") {
                 throw new Error("Invalid DHT reading from ESP32");
             }
+
             return { temperature: t, humidity: h, timestamp: new Date().toISOString() };
         } catch (err) {
             logger.error(`ESP32 Fetch Error at ${url}: ${err.message}`);

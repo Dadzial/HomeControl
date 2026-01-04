@@ -8,12 +8,7 @@ import { UIChart } from 'primeng/chart';
 
 @Component({
   selector: 'app-temperature',
-  imports: [
-    MatIcon,
-    NgIf,
-    DatePipe,
-    UIChart,
-    MatIconButton
+  imports: [MatIcon, NgIf, DatePipe, UIChart, MatIconButton
   ],
   templateUrl: './temperature.component.html',
   styleUrls: ['./temperature.component.css']

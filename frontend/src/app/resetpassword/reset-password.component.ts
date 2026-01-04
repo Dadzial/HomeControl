@@ -21,10 +21,7 @@ export class ResetPasswordComponent {
   email: string = '';
   newPassword: string = '';
 
-  constructor(
-    private router: Router,
-    private resetPasswordService: ResetPasswordService
-  ) {}
+  constructor(private router: Router, private resetPasswordService: ResetPasswordService) {}
 
   resetPassword() {
     const newPassword = {
